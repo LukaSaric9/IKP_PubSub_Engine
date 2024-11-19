@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{0b04f082-1df5-42d8-af4a-ce651e2a5d56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\pubsub">
+      <UniqueIdentifier>{d3675b5c-6ab5-4085-b5f2-f903e472b8e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\storage">
+      <UniqueIdentifier>{f6f53f65-80ef-469a-8de6-eb896a88e68e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\hashmap">
+      <UniqueIdentifier>{a040f615-e196-48be-ae1a-e5ec22c2962b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\buffer">
+      <UniqueIdentifier>{e8fcae49-60b6-4b37-a353-f00542088076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\thread_pool">
+      <UniqueIdentifier>{6f9d5baf-9767-4b0c-8d9c-eb6491af6c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{dc6914b7-0b21-4346-9618-7d13cd028d88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{436f94bf-ee7e-42ca-af99-6459793ff5bd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pubsub.cpp">
+      <Filter>src\pubsub</Filter>
+    </ClCompile>
+    <ClCompile Include="storage.cpp">
+      <Filter>src\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="hashmap.cpp">
+      <Filter>src\hashmap</Filter>
+    </ClCompile>
+    <ClCompile Include="buffer.cpp">
+      <Filter>src\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_pool.cpp">
+      <Filter>src\thread_pool</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pubsub.h">
+      <Filter>src\pubsub</Filter>
+    </ClInclude>
+    <ClInclude Include="storage.h">
+      <Filter>src\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="hashmap.h">
+      <Filter>src\hashmap</Filter>
+    </ClInclude>
+    <ClInclude Include="buffer.h">
+      <Filter>src\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_pool.h">
+      <Filter>src\thread_pool</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
