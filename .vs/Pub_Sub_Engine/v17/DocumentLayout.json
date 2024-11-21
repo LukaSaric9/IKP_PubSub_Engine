@@ -1,58 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\",
+  "WorkspaceRootPath": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|solutionrelative:Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\storage.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\storage.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\thread_pool.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\thread_pool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\storage.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\storage.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\pubsub.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\pubsub.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\pubsub.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\pubsub.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\hashmap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\buffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\common.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\hashmap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\common.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|solutionrelative:Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,175 +34,92 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 6,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "thread_pool.h",
+              "DocumentMoniker": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.h",
+              "RelativeDocumentMoniker": "Pub_Sub_Engine\\thread_pool.h",
+              "ToolTip": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.h",
+              "RelativeToolTip": "Pub_Sub_Engine\\thread_pool.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-21T17:15:17.933Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "thread_pool.cpp",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\thread_pool.cpp",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp",
-              "RelativeToolTip": "Pub_Sub_Engine\\thread_pool.cpp",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAAAHgAAAACAAAAAAAAAA==",
+              "Title": "common.cpp",
+              "DocumentMoniker": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.cpp",
+              "RelativeDocumentMoniker": "Pub_Sub_Engine\\common.cpp",
+              "ToolTip": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.cpp",
+              "RelativeToolTip": "Pub_Sub_Engine\\common.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-21T12:27:46.017Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "buffer.cpp",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.cpp",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\buffer.cpp",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.cpp",
-              "RelativeToolTip": "Pub_Sub_Engine\\buffer.cpp",
-              "ViewState": "AgIAADQAAAAAAAAAAAAAAD8AAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-21T12:22:37.255Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "buffer.h",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.h",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\buffer.h",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.h",
-              "RelativeToolTip": "Pub_Sub_Engine\\buffer.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACIAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-21T12:20:03.006Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "hashmap.h",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.h",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\hashmap.h",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.h",
-              "RelativeToolTip": "Pub_Sub_Engine\\hashmap.h",
-              "ViewState": "AgIAABoAAAAAAAAAAAAAACMAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-19T12:09:16.823Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "pubsub.h",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\pubsub.h",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\pubsub.h",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\pubsub.h",
-              "RelativeToolTip": "Pub_Sub_Engine\\pubsub.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-21T12:32:09.429Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "storage.h",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\storage.h",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\storage.h",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\storage.h",
-              "RelativeToolTip": "Pub_Sub_Engine\\storage.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAB4AAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-21T12:39:57.041Z",
+              "WhenOpened": "2024-11-21T17:14:48.421Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "thread_pool.h",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.h",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\thread_pool.h",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.h",
-              "RelativeToolTip": "Pub_Sub_Engine\\thread_pool.h",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACEAAAACAAAAAAAAAA==",
+              "Title": "common.h",
+              "DocumentMoniker": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h",
+              "RelativeDocumentMoniker": "Pub_Sub_Engine\\common.h",
+              "ToolTip": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h",
+              "RelativeToolTip": "Pub_Sub_Engine\\common.h",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAcwBgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-21T12:23:52.059Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "main.cpp",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\main.cpp",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp",
-              "RelativeToolTip": "Pub_Sub_Engine\\main.cpp",
-              "ViewState": "AgIAACcAAAAAAAAAAAAlwBEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-19T11:42:55.555Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Publisher_Client.cpp",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp",
-              "RelativeDocumentMoniker": "Publisher_Client\\Publisher_Client.cpp",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp",
-              "RelativeToolTip": "Publisher_Client\\Publisher_Client.cpp",
-              "ViewState": "AgIAADsAAAAAAAAAAAAQwFIAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-21T13:09:41.108Z",
+              "WhenOpened": "2024-11-21T17:07:50.934Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "storage.cpp",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\storage.cpp",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\storage.cpp",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\storage.cpp",
-              "RelativeToolTip": "Pub_Sub_Engine\\storage.cpp",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAwCcAAAAfAAAAAAAAAA==",
+              "Title": "thread_pool.cpp",
+              "DocumentMoniker": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp",
+              "RelativeDocumentMoniker": "Pub_Sub_Engine\\thread_pool.cpp",
+              "ToolTip": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp",
+              "RelativeToolTip": "Pub_Sub_Engine\\thread_pool.cpp",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAcwEMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-21T12:40:27.065Z",
+              "WhenOpened": "2024-11-21T16:51:16.151Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "pubsub.cpp",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\pubsub.cpp",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\pubsub.cpp",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\pubsub.cpp",
-              "RelativeToolTip": "Pub_Sub_Engine\\pubsub.cpp",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFMAAAADAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp",
+              "RelativeDocumentMoniker": "Pub_Sub_Engine\\main.cpp",
+              "ToolTip": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp",
+              "RelativeToolTip": "Pub_Sub_Engine\\main.cpp",
+              "ViewState": "AQIAADAAAACA+/////8gwDQAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-21T12:32:44.234Z",
+              "WhenOpened": "2024-11-21T16:18:48.685Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "common.h",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\common.h",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h",
-              "RelativeToolTip": "Pub_Sub_Engine\\common.h",
-              "ViewState": "AgIAADwAAAAAAAAAAAAAAFQAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-11-19T12:00:23.715Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "hashmap.cpp",
-              "DocumentMoniker": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.cpp",
-              "RelativeDocumentMoniker": "Pub_Sub_Engine\\hashmap.cpp",
-              "ToolTip": "C:\\Users\\Luka Saric\\source\\repos\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.cpp",
-              "RelativeToolTip": "Pub_Sub_Engine\\hashmap.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG0AAAACAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "Publisher_Client.cpp",
+              "DocumentMoniker": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp",
+              "RelativeDocumentMoniker": "Publisher_Client\\Publisher_Client.cpp",
+              "ToolTip": "C:\\Users\\Win10\\Documents\\GitHub\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp",
+              "RelativeToolTip": "Publisher_Client\\Publisher_Client.cpp",
+              "ViewState": "AQIAAFcAAAAAAAAAAAAYwHMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-19T12:18:40.817Z",
+              "WhenOpened": "2024-11-21T16:18:43.88Z",
               "EditorCaption": ""
             }
           ]

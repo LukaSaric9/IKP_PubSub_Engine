@@ -45,6 +45,9 @@
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="common.cpp">
+      <Filter>include</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pubsub.h">
