@@ -1,5 +1,5 @@
 #include "hashmap.h"
-
+/*
 HashMap* hashmap_init(size_t size) {
     HashMap* map = (HashMap*)malloc(sizeof(HashMap));
     CHECK_ALLOC(map);
@@ -107,3 +107,4 @@ void hashmap_destroy(HashMap* map) {
     MUTEX_DESTROY(map->mutex);
     free(map);
 }
+*/

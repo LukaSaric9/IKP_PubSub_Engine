@@ -1,6 +1,6 @@
 #ifndef COMMON_H
 #define COMMON_H
-
+/*
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -17,6 +17,12 @@
         fprintf(stderr, "Memory allocation failed at %s:%d\n", __FILE__, __LINE__); \
         exit(EXIT_FAILURE); \
     }
+
+#define LOG_INFO(msg, ...) \
+    fprintf(stdout, "[INFO] (%s:%d) " msg "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+
+#define LOG_ERROR(msg, ...) \
+    fprintf(stderr, "[ERROR] (%s:%d) " msg "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 // --- Project-wide Constants ---
 #define MAX_TOPIC_LENGTH 128    // Maximum length for a topic name
@@ -75,5 +81,5 @@ static inline char* safe_strdup(const char* str) {
     CHECK_ALLOC(dup);
     return dup;
 }
-
+*/
 #endif // COMMON_H

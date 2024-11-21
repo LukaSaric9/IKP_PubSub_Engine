@@ -2,17 +2,17 @@
 #define HASHMAP_H
 
 #include "common.h"
-
+/*
 
 typedef struct Subscriber {
-    int client_socket;
+    int client_socket; 
     struct Subscriber* next;
 } Subscriber;
 
 typedef struct HashMapEntry {
     char topic[MAX_TOPIC_LENGTH]; // svaki topik ima listu subscribera
     Subscriber* subscribers;
-    Mutex mutex; // Protects the subscribers list
+    Mutex mutex; // Each HashMapEntry has its own mutex to protect its subscribers list.
     struct HashMapEntry* next; //postoji lista svih topica
 } HashMapEntry;
 
@@ -33,6 +33,6 @@ Subscriber* hashmap_get_subscribers(HashMap* map, const char* topic);
 
 // Destroy the hashmap and free resources
 void hashmap_destroy(HashMap* map);
-
+*/
 #endif // HASHMAP_H
 
