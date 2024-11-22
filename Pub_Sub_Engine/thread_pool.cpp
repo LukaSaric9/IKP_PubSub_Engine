@@ -1,24 +1,13 @@
-#include "thread_pool.h"
-/*
-void InitializeThreadPool()
-{
-    clientQueueMutex = CreateMutex(NULL, FALSE, NULL);
-    for (int i = 0; i < MAX_THREADS; i++)
-    {
-        threadPool[i] = CreateThread(NULL, 0, WorkerFunction, NULL, 0, NULL);
-    }
-}
+#include "thread_pool.h"  
 
-void CleanupThreadPool()
-{
-    for (int i = 0; i < MAX_THREADS; i++)
-    {
-        TerminateThread(threadPool[i], 0);
-        CloseHandle(threadPool[i]);
-    }
-    CloseHandle(clientQueueMutex);
-}
 
+// Thread pool and client queue definitions
+HANDLE threadPool[MAX_THREADS];
+HANDLE clientQueueMutex;
+SOCKET clientQueue[MAX_THREADS];
+int queueCount = 0;
+
+// Worker function for threads
 DWORD WINAPI WorkerFunction(LPVOID lpParam)
 {
     while (true)
@@ -65,4 +54,24 @@ DWORD WINAPI WorkerFunction(LPVOID lpParam)
     }
     return 0;
 }
-*/
+
+// Initialize the thread pool
+void InitializeThreadPool()
+{
+    clientQueueMutex = CreateMutex(NULL, FALSE, NULL);
+    for (int i = 0; i < MAX_THREADS; i++)
+    {
+        threadPool[i] = CreateThread(NULL, 0, WorkerFunction, NULL, 0, NULL);
+    }
+}
+
+// Cleanup the thread pool
+void CleanupThreadPool()
+{
+    for (int i = 0; i < MAX_THREADS; i++)
+    {
+        TerminateThread(threadPool[i], 0);
+        CloseHandle(threadPool[i]);
+    }
+    CloseHandle(clientQueueMutex);
+}

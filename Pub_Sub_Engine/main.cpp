@@ -1,102 +1,12 @@
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN
 
-#include <windows.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <time.h>
-#include <mutex>
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include "conio.h"
-#include "thread_pool.cpp"
+#include "common.h"
+#include "thread_pool.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
-
-
-#define BUFFER_LENGTH 1024
-#define DEFAULT_PORT 7000
-#define MAX_THREADS 5
-
-// Thread pool and client queue
-HANDLE threadPool[MAX_THREADS];
-HANDLE clientQueueMutex;
-SOCKET clientQueue[MAX_THREADS];
-int queueCount = 0;
-
-// Worker function for threads
-DWORD WINAPI WorkerFunction(LPVOID lpParam)
-{
-    while (true)
-    {
-        SOCKET clientSocket = INVALID_SOCKET;
-
-        // Wait for a client in the queue
-        WaitForSingleObject(clientQueueMutex, INFINITE);
-        if (queueCount > 0)
-        {
-            clientSocket = clientQueue[--queueCount];
-        }
-        ReleaseMutex(clientQueueMutex);
-
-        if (clientSocket != INVALID_SOCKET)
-        {
-            char recvbuf[BUFFER_LENGTH];
-            int iResult;
-
-            do
-            {
-                iResult = recv(clientSocket, recvbuf, BUFFER_LENGTH, 0);
-                if (iResult > 0)
-                {
-                    recvbuf[iResult] = '\0';
-                    printf("Client sent: %s\n", recvbuf);
-                }
-                else if (iResult == 0)
-                {
-                    printf("Connection with client closed.\n");
-                }
-                else
-                {
-                    printf("recv failed with error: %d\n", WSAGetLastError());
-                }
-            } while (iResult > 0);
-
-            closesocket(clientSocket); // Close the client socket after processing
-        }
-        else
-        {
-            Sleep(10); // Prevent busy-waiting
-        }
-    }
-    return 0;
-}
-
-// Initialize the thread pool
-void InitializeThreadPool()
-{
-    clientQueueMutex = CreateMutex(NULL, FALSE, NULL);
-    for (int i = 0; i < MAX_THREADS; i++)
-    {
-        threadPool[i] = CreateThread(NULL, 0, WorkerFunction, NULL, 0, NULL);
-    }
-}
-
-// Cleanup the thread pool
-void CleanupThreadPool()
-{
-    for (int i = 0; i < MAX_THREADS; i++)
-    {
-        TerminateThread(threadPool[i], 0);
-        CloseHandle(threadPool[i]);
-    }
-    CloseHandle(clientQueueMutex);
-}
 
 
 bool InitializeWindowsSockets();
