@@ -13,6 +13,9 @@
 #include <time.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <vector>
+#include <string>
+#include <mutex>
 
 #define BUFFER_LENGTH 1024
 #define DEFAULT_PORT 7000

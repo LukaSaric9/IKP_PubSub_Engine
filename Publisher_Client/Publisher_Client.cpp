@@ -56,16 +56,16 @@ int main()
     }
 
     while (true) {
-        printf("Unesite temu za koju saljete poruku: ");
-            gets_s(dataBuffer, BUFFER_SIZE);
+        printf("Enter your message: ");
+        gets_s(dataBuffer, BUFFER_SIZE);
 
+        // Prepend PUBLISHER identifier
+        char message[BUFFER_SIZE];
+        snprintf(message, BUFFER_SIZE, "PUBLISHER:%s", dataBuffer);
 
-        fflush(stdin);
+        iResult = send(connectSocket, message, (int)strlen(message), 0);
 
-        iResult = send(connectSocket, dataBuffer, (int)strlen(dataBuffer), 0);
-
-        if (iResult == SOCKET_ERROR)
-        {
+        if (iResult == SOCKET_ERROR) {
             printf("send failed with error: %d\n", WSAGetLastError());
             closesocket(connectSocket);
             WSACleanup();
@@ -74,6 +74,7 @@ int main()
 
         printf("Message successfully sent. Total bytes: %ld\n", iResult);
     }
+
 
     iResult = shutdown(connectSocket, SD_BOTH);
 
