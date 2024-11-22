@@ -16,6 +16,7 @@
 #include <vector>
 #include <string>
 #include <mutex>
+#include <unordered_map>
 
 #define BUFFER_LENGTH 1024
 #define DEFAULT_PORT 7000

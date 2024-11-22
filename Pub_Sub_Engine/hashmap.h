@@ -2,37 +2,38 @@
 #define HASHMAP_H
 
 #include "common.h"
-/*
 
-typedef struct Subscriber {
-    int client_socket; 
-    struct Subscriber* next;
-} Subscriber;
+#define HASH_MAP_SIZE 256
+#define TOPIC_SIZE 64
 
-typedef struct HashMapEntry {
-    char topic[MAX_TOPIC_LENGTH]; // svaki topik ima listu subscribera
-    Subscriber* subscribers;
-    Mutex mutex; // Each HashMapEntry has its own mutex to protect its subscribers list.
-    struct HashMapEntry* next; //postoji lista svih topica
-} HashMapEntry;
+// Structures remain unchanged
+typedef struct SubscriberNode {
+    SOCKET socket;
+    struct SubscriberNode* next;
+} SubscriberNode;
+
+typedef struct HashMapNode {
+    char topic[TOPIC_SIZE];
+    SubscriberNode* subscribers;
+    struct HashMapNode* next;
+} HashMapNode;
 
 typedef struct HashMap {
-    HashMapEntry** buckets; // Array of buckets (linked list of HashMapEntry)
-    size_t size;
-    Mutex mutex; // Protects the entire hashmap
-} HashMap;  
+    HashMapNode* buckets[HASH_MAP_SIZE];
+} HashMap;
 
-// Initialize the hashmap
-HashMap* hashmap_init(size_t size);
+unsigned int hashFunction(const char* topic);
 
-// Insert a subscriber to a topic
-void hashmap_subscribe(HashMap* map, const char* topic, int client_socket);
+void initializeHashMapWithMutex(HashMap* map);
 
-// Retrieve subscribers for a topic
-Subscriber* hashmap_get_subscribers(HashMap* map, const char* topic);
+void insertIntoHashMapWithLock(HashMap* map, const char* topic, SOCKET socket);
 
-// Destroy the hashmap and free resources
-void hashmap_destroy(HashMap* map);
-*/
+SubscriberNode* getSubscribersWithLock(HashMap* map, const char* topic);
+
+void freeHashMapWithMutex(HashMap* map);
+
+// Global mutex for synchronizing hash map operations
+
+
 #endif // HASHMAP_H
 

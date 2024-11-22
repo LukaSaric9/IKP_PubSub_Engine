@@ -1,110 +1,92 @@
 #include "hashmap.h"
-/*
-HashMap* hashmap_init(size_t size) {
-    HashMap* map = (HashMap*)malloc(sizeof(HashMap));
-    CHECK_ALLOC(map);
-    map->size = size;
-    map->buckets = (HashMapEntry**)calloc(size, sizeof(HashMapEntry*));
-    CHECK_ALLOC(map->buckets);
-    MUTEX_INIT(map->mutex);
-    return map;
+
+HANDLE hashMapMutex;
+
+unsigned int hashFunction(const char* topic) {
+    unsigned int hash = 0;
+    while (*topic) {
+        hash = (hash * 31) + *topic++;
+    }
+    return hash % HASH_MAP_SIZE;
 }
 
-static size_t hash_function(const char* key, size_t size) {
-    size_t hash = 0;
-    while (*key) {
-        hash = (hash * 31) + *key++;
+void initializeHashMapWithMutex(HashMap* map) {
+    for (int i = 0; i < HASH_MAP_SIZE; i++) {
+        map->buckets[i] = NULL;
     }
-    return hash % size;
+    hashMapMutex = CreateMutex(NULL, FALSE, NULL); // Initialize the mutex
 }
 
-void hashmap_subscribe(HashMap* map, const char* topic, int client_socket) {
-    size_t index = hash_function(topic, map->size);
-    MUTEX_LOCK(map->mutex);
-    HashMapEntry* entry = map->buckets[index];
-    while (entry) {
-        if (strcmp(entry->topic, topic) == 0) {
-            break;
-        }
-        entry = entry->next;
-    }
-    if (!entry) {
-        // Create a new entry
-        entry = (HashMapEntry*)malloc(sizeof(HashMapEntry));
-        CHECK_ALLOC(entry);
-        strncpy(entry->topic, topic, MAX_TOPIC_LENGTH);
-        entry->subscribers = NULL;
-        MUTEX_INIT(entry->mutex);
-        entry->next = map->buckets[index];
-        map->buckets[index] = entry;
-    }
-    MUTEX_LOCK(entry->mutex);
-    MUTEX_UNLOCK(map->mutex); // Release map mutex early
+void insertIntoHashMapWithLock(HashMap* map, const char* topic, SOCKET socket) {
+    WaitForSingleObject(hashMapMutex, INFINITE); // Lock mutex
 
-    // Add the subscriber
-    Subscriber* sub = (Subscriber*)malloc(sizeof(Subscriber));
-    CHECK_ALLOC(sub);
-    sub->client_socket = client_socket;
-    sub->next = entry->subscribers;
-    entry->subscribers = sub;
-
-    MUTEX_UNLOCK(entry->mutex);
-}
-
-Subscriber* hashmap_get_subscribers(HashMap* map, const char* topic) {
-    size_t index = hash_function(topic, map->size);
-    MUTEX_LOCK(map->mutex);
-    HashMapEntry* entry = map->buckets[index];
-    while (entry) {
-        if (strcmp(entry->topic, topic) == 0) {
-            break;
-        }
-        entry = entry->next;
-    }
-    if (!entry) {
-        MUTEX_UNLOCK(map->mutex);
-        return NULL;
-    }
-    MUTEX_LOCK(entry->mutex);
-    MUTEX_UNLOCK(map->mutex); // Release map mutex early
-
-    // Create a copy of subscribers list to return
-    Subscriber* copy = NULL;
-    Subscriber* current = entry->subscribers;
+    unsigned int index = hashFunction(topic);
+    HashMapNode* current = map->buckets[index];
     while (current) {
-        Subscriber* new_sub = (Subscriber*)malloc(sizeof(Subscriber));
-        CHECK_ALLOC(new_sub);
-        new_sub->client_socket = current->client_socket;
-        new_sub->next = copy;
-        copy = new_sub;
+        if (strcmp(current->topic, topic) == 0) {
+            // Add the subscriber to the topic
+            SubscriberNode* subscriber = (SubscriberNode*)malloc(sizeof(SubscriberNode));
+            subscriber->socket = socket;
+            subscriber->next = current->subscribers;
+            current->subscribers = subscriber;
+
+            ReleaseMutex(hashMapMutex); // Release mutex
+            return;
+        }
         current = current->next;
     }
 
-    MUTEX_UNLOCK(entry->mutex);
-    return copy;
+    // If topic doesn't exist, create a new node
+    HashMapNode* newNode = (HashMapNode*)malloc(sizeof(HashMapNode));
+    strcpy_s(newNode->topic, topic);
+    newNode->subscribers = (SubscriberNode*)malloc(sizeof(SubscriberNode));
+    newNode->subscribers->socket = socket;
+    newNode->subscribers->next = NULL;
+    newNode->next = map->buckets[index];
+    map->buckets[index] = newNode;
+
+    ReleaseMutex(hashMapMutex); // Release mutex
 }
 
-void hashmap_destroy(HashMap* map) {
-    for (size_t i = 0; i < map->size; ++i) {
-        HashMapEntry* entry = map->buckets[i];
-        while (entry) {
-            HashMapEntry* temp = entry;
-            entry = entry->next;
+SubscriberNode* getSubscribersWithLock(HashMap* map, const char* topic) {
+    WaitForSingleObject(hashMapMutex, INFINITE); // Lock mutex
 
-            MUTEX_LOCK(temp->mutex);
-            Subscriber* sub = temp->subscribers;
-            while (sub) {
-                Subscriber* sub_temp = sub;
-                sub = sub->next;
-                free(sub_temp);
+    unsigned int index = hashFunction(topic);
+    HashMapNode* current = map->buckets[index];
+    while (current) {
+        if (strcmp(current->topic, topic) == 0) {
+            SubscriberNode* subscribers = current->subscribers;
+
+            ReleaseMutex(hashMapMutex); // Release mutex
+            return subscribers;
+        }
+        current = current->next;
+    }
+
+    ReleaseMutex(hashMapMutex); // Release mutex
+    return NULL; // Topic not found
+}
+
+void freeHashMapWithMutex(HashMap* map) {
+    WaitForSingleObject(hashMapMutex, INFINITE); // Lock mutex
+
+    for (int i = 0; i < HASH_MAP_SIZE; i++) {
+        HashMapNode* current = map->buckets[i];
+        while (current) {
+            HashMapNode* temp = current;
+            current = current->next;
+
+            SubscriberNode* subscriber = temp->subscribers;
+            while (subscriber) {
+                SubscriberNode* subTemp = subscriber;
+                subscriber = subscriber->next;
+                free(subTemp);
             }
-            MUTEX_UNLOCK(temp->mutex);
-            MUTEX_DESTROY(temp->mutex);
             free(temp);
         }
+        map->buckets[i] = NULL;
     }
-    free(map->buckets);
-    MUTEX_DESTROY(map->mutex);
-    free(map);
+
+    ReleaseMutex(hashMapMutex); // Release mutex
+    CloseHandle(hashMapMutex); // Destroy mutex
 }
-*/
