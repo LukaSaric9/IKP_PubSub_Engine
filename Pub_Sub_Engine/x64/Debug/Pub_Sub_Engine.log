@@ -1,9 +1,2 @@
 ﻿  thread_pool.cpp
-  LINK : C:\Users\Win10\Documents\GitHub\IKP_PubSub_Engine\x64\Debug\Pub_Sub_Engine.exe not found or not built by the last incremental link; performing full link
-thread_pool.obj : error LNK2005: "void __cdecl freeHashMapWithMutex(struct HashMap *)" (?freeHashMapWithMutex@@YAXPEAUHashMap@@@Z) already defined in hashmap.obj
-thread_pool.obj : error LNK2005: "struct SubscriberNode * __cdecl getSubscribersWithLock(struct HashMap *,char const *)" (?getSubscribersWithLock@@YAPEAUSubscriberNode@@PEAUHashMap@@PEBD@Z) already defined in hashmap.obj
-thread_pool.obj : error LNK2005: "unsigned int __cdecl hashFunction(char const *)" (?hashFunction@@YAIPEBD@Z) already defined in hashmap.obj
-thread_pool.obj : error LNK2005: "void __cdecl initializeHashMapWithMutex(struct HashMap *)" (?initializeHashMapWithMutex@@YAXPEAUHashMap@@@Z) already defined in hashmap.obj
-thread_pool.obj : error LNK2005: "void __cdecl insertIntoHashMapWithLock(struct HashMap *,char const *,unsigned __int64)" (?insertIntoHashMapWithLock@@YAXPEAUHashMap@@PEBD_K@Z) already defined in hashmap.obj
-thread_pool.obj : error LNK2005: "void * hashMapMutex" (?hashMapMutex@@3PEAXEA) already defined in hashmap.obj
-C:\Users\Win10\Documents\GitHub\IKP_PubSub_Engine\x64\Debug\Pub_Sub_Engine.exe : fatal error LNK1169: one or more multiply defined symbols found
+  Pub_Sub_Engine.vcxproj -> C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\x64\Debug\Pub_Sub_Engine.exe

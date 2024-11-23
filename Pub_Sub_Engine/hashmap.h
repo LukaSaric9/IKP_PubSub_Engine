@@ -6,6 +6,8 @@
 #define HASH_MAP_SIZE 256
 #define TOPIC_SIZE 64
 
+extern HANDLE hashMapMutex;
+
 // Structures remain unchanged
 typedef struct SubscriberNode {
     SOCKET socket;

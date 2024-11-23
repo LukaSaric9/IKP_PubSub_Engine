@@ -56,7 +56,7 @@ int main()
     }
 
     while (true) {
-        printf("Enter your message: ");
+        printf("Enter your topic: ");
         gets_s(dataBuffer, BUFFER_SIZE);
 
         // Prepend PUBLISHER identifier

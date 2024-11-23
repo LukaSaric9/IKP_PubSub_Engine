@@ -37,39 +37,50 @@ void CleanupGlobalData() {
 
 // Process publisher messages
 void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
-    std::string fullMessage(message);
-    size_t delimiterPos = fullMessage.find(':');
-    if (delimiterPos != std::string::npos) {
-        std::string topic = fullMessage.substr(0, delimiterPos);
-        std::string content = fullMessage.substr(delimiterPos + 1);
+    const char* delimeter = strchr(message, ':');
+    if (delimeter != NULL) {
+        size_t topicLength = delimeter - message;
+        char topic[TOPIC_SIZE];
+        char content[1024];
 
-        // Save the published message
+        if (topicLength >= sizeof(topic)) {
+            printf("Topic too long, truncating.\n");
+            topicLength = sizeof(topic) - 1;
+        }
+        strncpy_s(topic, message, topicLength);
+        topic[topicLength] = '\0';
+
+        strncpy_s(content, delimeter + 1, sizeof(content - 1));
+        content[sizeof(content) - 1] = '\0';
+
         WaitForSingleObject(publishedMessagesMutex, INFINITE);
-        publishedMessages.push_back({ topic, content });
-        printf("Publisher: Topic='%s', Content='%s'\n", topic.c_str(), content.c_str());
+        // ovde treba upis u buffer koji jos nemamo
         ReleaseMutex(publishedMessagesMutex);
 
-        // Notify subscribers of the new message
-        SubscriberNode* subscribers = getSubscribersWithLock(&topicSubscribers, topic.c_str());
-        while (subscribers) {
-            // Notify each subscriber (e.g., send the content to the subscriber's socket)
-            printf("Notifying subscriber on topic '%s'.\n", topic.c_str());
-            // TODO: Add the actual send logic for each subscriber socket
-            subscribers = subscribers->next;
-        }
-    }
+        //zatim obavestavanje svih klijenata koji su subscribovani
+    } 
     else {
         printf("Invalid publisher message format.\n");
     }
+
 }
 
 // Process subscriber messages
 void ProcessSubscriberMessage(SOCKET clientSocket, const char* message) {
-    std::string topic(message);
+    char topic[TOPIC_SIZE];
+    size_t messageLength = strlen(message);
 
+    if (messageLength >= TOPIC_SIZE) {
+        printf("Topic too long, truncating...\n");
+        messageLength = TOPIC_SIZE - 1;
+    }
+
+    strncpy_s(topic, message, messageLength);
+    topic[messageLength] = '\0';
+    
     // Add the subscriber to the topic in the hash map
-    insertIntoHashMapWithLock(&topicSubscribers, topic.c_str(), clientSocket);
-    printf("Subscriber added to topic: %s\n", topic.c_str());
+    insertIntoHashMapWithLock(&topicSubscribers, topic, clientSocket);
+    printf("Subscriber added to topic: %s\n", topic);
 
     // Print the entire content of the hash map
     printf("Current HashMap Contents:\n");

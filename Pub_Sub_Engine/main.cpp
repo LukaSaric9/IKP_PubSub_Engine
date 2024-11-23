@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "thread_pool.h"
+#include "hashmap.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
@@ -56,7 +57,8 @@ int main()
     }
 
     printf("Server socket is set to listening mode. Waiting for new connection requests.\n");
-
+    
+    InitializeGlobalData();
     // Initialize thread pool
     InitializeThreadPool();
 
@@ -89,6 +91,7 @@ int main()
     } while (true);
 
     CleanupThreadPool();
+    CleanupGlobalData();
 
     closesocket(listenSocket);
     WSACleanup();
