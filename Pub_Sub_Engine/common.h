@@ -22,5 +22,6 @@
 #define DEFAULT_PORT 7000
 #define MAX_THREADS 5
 #define INITIAL_CAPACITY 1
+#define STORAGE_IDENTIFIER "STORAGE"
 
 #endif /* COMMON_H */

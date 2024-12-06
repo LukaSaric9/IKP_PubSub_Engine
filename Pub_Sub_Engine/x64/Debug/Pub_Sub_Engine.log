@@ -1,16 +1,2 @@
-﻿  hashmap.cpp
-C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\hashmap.cpp(35,28): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'SOCKET'
-      C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\hashmap.cpp(35,28):
-      consider using '%lld' in the format string
-      C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\hashmap.cpp(35,28):
-      consider using '%Id' in the format string
-      C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\hashmap.cpp(35,28):
-      consider using '%I64d' in the format string
-  
-C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\hashmap.cpp(37,66): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\hashmap.cpp(56,58): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\hashmap.cpp(78,50): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  thread_pool.cpp
-C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\thread_pool.cpp(77,64): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
+﻿  buffer.cpp
   Pub_Sub_Engine.vcxproj -> C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\x64\Debug\Pub_Sub_Engine.exe

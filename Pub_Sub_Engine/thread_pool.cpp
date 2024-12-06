@@ -8,6 +8,7 @@ HANDLE threadPool[MAX_THREADS];
 HANDLE clientQueueMutex;
 SOCKET clientQueue[MAX_THREADS];
 int queueCount = 0;
+SOCKET storageSocket = INVALID_SOCKET;
 
 
 // Define the global data structures
@@ -16,6 +17,7 @@ DynamicBuffer publishedMessagesBuffer;
 HANDLE publishedMessagesMutex; // Mutex for publishedMessages
 
 void notifySubscribers(const char* topic, const char* message);
+void SendToStorage(const char* message);
 
 // Initialize global structures and mutex
 void InitializeGlobalData() {
@@ -50,8 +52,8 @@ void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
         content[sizeof(content) - 1] = '\0';
 
         WaitForSingleObject(publishedMessagesMutex, INFINITE);
-        // ovde treba upis u buffer koji jos nemamo
         storeTopicMessage(&publishedMessagesBuffer, topic, content); // Store the topic-message pair
+        SendToStorage(content);
         printBufferContents(&publishedMessagesBuffer);              // Optional: Debug output
         ReleaseMutex(publishedMessagesMutex);
 
@@ -143,13 +145,16 @@ void ProcessClientMessage(SOCKET clientSocket) {
         bytesReceived = recv(clientSocket, recvBuffer, BUFFER_LENGTH - 1, 0);
         if (bytesReceived > 0) {
             recvBuffer[bytesReceived] = '\0'; // Null-terminate the message
-            printf("Received message: %s\n", recvBuffer);
 
             if (strncmp(recvBuffer, "PUBLISHER:", 10) == 0) {
                 ProcessPublisherMessage(clientSocket, recvBuffer + 10);
             }
             else if (strncmp(recvBuffer, "SUBSCRIBER:", 11) == 0) {
                 ProcessSubscriberMessage(clientSocket, recvBuffer + 11);
+            }
+            else if (strncmp(recvBuffer, STORAGE_IDENTIFIER, strlen(STORAGE_IDENTIFIER)) == 0) {
+                printf("Storage service connected.\n");
+                storageSocket = clientSocket;
             }
             else {
                 printf("Unknown client type. Message ignored.\n");
@@ -166,6 +171,16 @@ void ProcessClientMessage(SOCKET clientSocket) {
     }
 
     closesocket(clientSocket);
+}
+
+// Send the message to the storage service
+void SendToStorage(const char* message) {
+    if (storageSocket != INVALID_SOCKET) {
+        int bytesSent = send(storageSocket, message, (int)strlen(message), 0);
+        if (bytesSent == SOCKET_ERROR) {
+            printf("Failed to send message to storage service. Error: %d\n", WSAGetLastError());
+        }
+    }
 }
 
 

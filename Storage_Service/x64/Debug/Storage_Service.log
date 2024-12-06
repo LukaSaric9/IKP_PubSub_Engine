@@ -1,0 +1,3 @@
+﻿  Storage_Service.cpp
+C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Storage_Service\Storage_Service.cpp(31,10): warning C4101: 'dataBuffer': unreferenced local variable
+  Storage_Service.vcxproj -> C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\x64\Debug\Storage_Service.exe

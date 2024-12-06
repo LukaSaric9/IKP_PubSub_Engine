@@ -12,7 +12,7 @@ void initializeBuffer(DynamicBuffer* buffer) {
 }
 
 void storeTopicMessage(DynamicBuffer* buffer, const char* topic, const char* message) {
-    printf("Storing topic: '%s', message: '%s'\n", topic, message);
+    printf("Storing topic to buffer: '%s', message: '%s'\n", topic, message);
 
     // Resize the buffer if needed
     if (buffer->size >= buffer->capacity) {
