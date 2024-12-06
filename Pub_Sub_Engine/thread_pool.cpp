@@ -20,12 +20,14 @@ void notifySubscribers(const char* topic, const char* message);
 // Initialize global structures and mutex
 void InitializeGlobalData() {
     initializeHashMapWithMutex(&topicSubscribers);
+    initializeBuffer(&publishedMessagesBuffer);
     publishedMessagesMutex = CreateMutex(NULL, FALSE, NULL); // Mutex for publishedMessages
 }
 
 // Clean up global structures
 void CleanupGlobalData() {
     freeHashMapWithMutex(&topicSubscribers);
+    freeBuffer(&publishedMessagesBuffer);
     CloseHandle(publishedMessagesMutex);
 }
 

@@ -1,6 +1,8 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "hashmap.h"
 
 HANDLE hashMapMutex;
+const char* concatenate(const char* str1, const char* str2);
 
 unsigned int hashFunction(const char* topic) {
     unsigned int hash = 0;
@@ -31,6 +33,12 @@ void insertIntoHashMapWithLock(HashMap* map, const char* topic, SOCKET socket) {
             while (subscriber) {
                 if (subscriber->socket == socket) {
                     printf("Socket %d is already subscribed to topic '%s'.\n", socket, topic);
+                    const char* message = concatenate("You are already subscribed to ",topic);
+                    int sendResult = send(socket, message, strlen(message), 0);
+                    if (sendResult == SOCKET_ERROR) {
+                        printf("Failed to send message to subscriber. Error: %d\n", WSAGetLastError());
+                    }
+                    free((void*)message);
 
                     ReleaseMutex(hashMapMutex); // Release mutex
                     return; // Exit function without adding the socket
@@ -44,6 +52,12 @@ void insertIntoHashMapWithLock(HashMap* map, const char* topic, SOCKET socket) {
             newSubscriber->next = current->subscribers;
             current->subscribers = newSubscriber;
             printf("Subscriber added to topic: %s\n", topic);
+            const char* message = concatenate("You succesfully subscribed the topic: ",topic);
+            int sendResult = send(socket, message, strlen(message), 0);
+            if (sendResult == SOCKET_ERROR) {
+                printf("Failed to send message to subscriber. Error: %d\n", WSAGetLastError());
+            }
+            free((void*)message);
 
             ReleaseMutex(hashMapMutex); // Release mutex
             return;
@@ -60,6 +74,12 @@ void insertIntoHashMapWithLock(HashMap* map, const char* topic, SOCKET socket) {
     newNode->next = map->buckets[index];
     map->buckets[index] = newNode;
     printf("Subscriber added to topic: %s\n", topic);
+    const char* message = concatenate("You succesfully subscribed the topic: ", topic);
+    int sendResult = send(socket, message, strlen(message), 0);
+    if (sendResult == SOCKET_ERROR) {
+        printf("Failed to send message to subscriber. Error: %d\n", WSAGetLastError());
+    }
+    free((void*)message);
 
 
     ReleaseMutex(hashMapMutex); // Release mutex
@@ -107,4 +127,26 @@ void freeHashMapWithMutex(HashMap* map) {
 
     ReleaseMutex(hashMapMutex); // Release mutex
     CloseHandle(hashMapMutex); // Destroy mutex
+}
+
+const char* concatenate(const char* str1, const char* str2) {
+    // Calculate the length of the two strings
+    size_t len1 = strlen(str1);
+    size_t len2 = strlen(str2);
+
+    // Allocate memory for the concatenated string (+1 for the null terminator)
+    char* result = (char*)malloc(len1 + len2 + 1);
+    if (result == NULL) {
+        printf("Memory allocation failed\n");
+        return NULL;
+    }
+
+    // Copy the first string into the result
+    strcpy(result, str1);
+
+    // Append the second string
+    strcat(result, str2);
+
+    // Return the result (caller is responsible for freeing the memory)
+    return result;
 }

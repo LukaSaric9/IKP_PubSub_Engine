@@ -67,6 +67,7 @@ int main()
     }
 
     while (true) {
+        Sleep(100);
         printf("Enter topic to subscribe: ");
         gets_s(dataBuffer, BUFFER_SIZE);
 
