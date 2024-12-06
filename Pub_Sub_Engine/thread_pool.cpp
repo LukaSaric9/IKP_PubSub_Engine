@@ -1,5 +1,6 @@
 #include "thread_pool.h"  
 #include "hashmap.h"
+#include "buffer.h"
 
 
 // Thread pool and client queue definitions
@@ -8,20 +9,13 @@ HANDLE clientQueueMutex;
 SOCKET clientQueue[MAX_THREADS];
 int queueCount = 0;
 
-std::vector<std::string> topics;
-std::mutex topicsMutex;
-
-/////////////////////////////////c++ sranja
-struct PublisherMessage {
-    std::string topic;
-    std::string content;
-};
-// Assume this is the custom hash map header we implemented earlier
 
 // Define the global data structures
 HashMap topicSubscribers; // Use the custom HashMap for topic-subscriber mapping
-std::vector<PublisherMessage> publishedMessages; // Keep this as a vector for published messages
+DynamicBuffer publishedMessagesBuffer;
 HANDLE publishedMessagesMutex; // Mutex for publishedMessages
+
+void notifySubscribers(const char* topic, const char* message);
 
 // Initialize global structures and mutex
 void InitializeGlobalData() {
@@ -55,15 +49,43 @@ void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
 
         WaitForSingleObject(publishedMessagesMutex, INFINITE);
         // ovde treba upis u buffer koji jos nemamo
+        storeTopicMessage(&publishedMessagesBuffer, topic, content); // Store the topic-message pair
+        printBufferContents(&publishedMessagesBuffer);              // Optional: Debug output
         ReleaseMutex(publishedMessagesMutex);
 
         //zatim obavestavanje svih klijenata koji su subscribovani
+        notifySubscribers(topic, content);
     } 
     else {
         printf("Invalid publisher message format.\n");
     }
 
 }
+
+void notifySubscribers(const char* topic, const char* message) {
+    printf("Notifying subscribers for topic: '%s'\n", topic);
+
+    // Lock the hash map to safely access subscribers
+    SubscriberNode* subscribers = getSubscribersWithLock(&topicSubscribers, topic);
+
+    while (subscribers) {
+        SOCKET subscriberSocket = subscribers->socket;
+
+        // Send the message to the subscriber
+        int sendResult = send(subscriberSocket, message, strlen(message), 0);
+        if (sendResult == SOCKET_ERROR) {
+            printf("Failed to send message to subscriber. Error: %d\n", WSAGetLastError());
+        }
+        else {
+            printf("Message sent to subscriber (socket: %lld): '%s'\n", (long long)subscriberSocket, message);
+        }
+
+        subscribers = subscribers->next;
+    }
+
+    printf("Finished notifying subscribers for topic: '%s'\n", topic);
+}
+
 
 // Process subscriber messages
 void ProcessSubscriberMessage(SOCKET clientSocket, const char* message) {
@@ -80,7 +102,6 @@ void ProcessSubscriberMessage(SOCKET clientSocket, const char* message) {
     
     // Add the subscriber to the topic in the hash map
     insertIntoHashMapWithLock(&topicSubscribers, topic, clientSocket);
-    printf("Subscriber added to topic: %s\n", topic);
 
     // Print the entire content of the hash map
     printf("Current HashMap Contents:\n");

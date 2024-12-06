@@ -21,5 +21,6 @@
 #define BUFFER_LENGTH 1024
 #define DEFAULT_PORT 7000
 #define MAX_THREADS 5
+#define INITIAL_CAPACITY 1
 
 #endif /* COMMON_H */

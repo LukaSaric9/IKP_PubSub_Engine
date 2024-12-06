@@ -19,6 +19,7 @@
 #define BUFFER_SIZE 1024
 
 bool InitializeWindowsSockets();
+DWORD WINAPI ReceiveMessages(LPVOID lpParam);
 
 int main()
 {
@@ -55,6 +56,16 @@ int main()
         WSACleanup();
     }
 
+    // Create a thread to handle receiving messages from the server
+    HANDLE receiveThread = CreateThread(NULL, 0, ReceiveMessages, (LPVOID)connectSocket, 0, NULL);
+    if (receiveThread == NULL)
+    {
+        printf("Failed to create receive thread. Error: %ld\n", GetLastError());
+        closesocket(connectSocket);
+        WSACleanup();
+        return 1;
+    }
+
     while (true) {
         printf("Enter topic to subscribe: ");
         gets_s(dataBuffer, BUFFER_SIZE);
@@ -74,6 +85,9 @@ int main()
 
         printf("Topic successfully sent. Total bytes: %ld\n", iResult);
     }
+
+    // Wait for the receive thread to finish
+    WaitForSingleObject(receiveThread, INFINITE);
 
     iResult = shutdown(connectSocket, SD_BOTH);
 
@@ -110,6 +124,37 @@ bool InitializeWindowsSockets()
         return false;
     }
     return true;
+}
+
+// Thread function for receiving messages from the server
+DWORD WINAPI ReceiveMessages(LPVOID lpParam)
+{
+    SOCKET connectSocket = (SOCKET)lpParam;
+    char recvBuffer[BUFFER_SIZE];
+    int bytesReceived;
+
+    while (true)
+    {
+        // Receive data from the server
+        bytesReceived = recv(connectSocket, recvBuffer, BUFFER_SIZE - 1, 0);
+        if (bytesReceived > 0)
+        {
+            recvBuffer[bytesReceived] = '\0'; // Null-terminate the message
+            printf("\nMessage received from server: %s\n", recvBuffer);
+        }
+        else if (bytesReceived == 0)
+        {
+            printf("Server disconnected.\n");
+            break;
+        }
+        else
+        {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            break;
+        }
+    }
+
+    return 0;
 }
 
 

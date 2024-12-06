@@ -1,2 +1,3 @@
 ﻿  thread_pool.cpp
+C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\Pub_Sub_Engine\thread_pool.cpp(75,64): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
   Pub_Sub_Engine.vcxproj -> C:\Users\Luka Saric\source\repos\IKP_PubSub_Engine\x64\Debug\Pub_Sub_Engine.exe

@@ -1,64 +1,75 @@
 #include "buffer.h"
-/*
-CircularBuffer* circular_buffer_init(size_t initial_capacity) {
-    CircularBuffer* cb = (CircularBuffer*)malloc(sizeof(CircularBuffer));
-    CHECK_ALLOC(cb);
-    cb->buffer = (PublishTask*)malloc(initial_capacity * sizeof(PublishTask));
-    CHECK_ALLOC(cb->buffer);
-    cb->head = 0;
-    cb->tail = 0;
-    cb->capacity = initial_capacity;
-    MUTEX_INIT(cb->mutex); // A mutex (cb->mutex) protects access to the buffer.
-    CONDVAR_INIT(cb->not_empty);//Condition variables (not_empty and not_full) are used to signal producers and consumers. Producers add tasks and signal not_empty. Consumers wait on not_empty when the buffer is empty
-    CONDVAR_INIT(cb->not_full); // 
-    return cb;
+
+// Initialize the dynamic buffer
+void initializeBuffer(DynamicBuffer* buffer) {
+    buffer->buffer = (TopicMessagePair*)malloc(INITIAL_CAPACITY * sizeof(TopicMessagePair));
+    if (!buffer->buffer) {
+        fprintf(stderr, "Failed to allocate memory for the buffer.\n");
+        exit(EXIT_FAILURE);
+    }
+    buffer->size = 0;
+    buffer->capacity = INITIAL_CAPACITY;
 }
 
-void circular_buffer_add(CircularBuffer* cb, PublishTask task) {
-    MUTEX_LOCK(cb->mutex);
-    // Check if buffer is full
-    size_t next_head = (cb->head + 1) % cb->capacity;
-    if (next_head == cb->tail) {
-        // Buffer is full; expand capacity
-        size_t new_capacity = cb->capacity * 2;
-        PublishTask* new_buffer = (PublishTask*)realloc(cb->buffer, new_capacity * sizeof(PublishTask)); //When the buffer is full, its capacity is doubled using realloc.
-        CHECK_ALLOC(new_buffer);
-        // If head is before tail in the buffer, need to rearrange
-        if (cb->head < cb->tail) {
-            memmove(&new_buffer[cb->capacity], &new_buffer[0], cb->head * sizeof(PublishTask));
-            cb->head += cb->capacity;
+void storeTopicMessage(DynamicBuffer* buffer, const char* topic, const char* message) {
+    printf("Storing topic: '%s', message: '%s'\n", topic, message);
+
+    // Resize the buffer if needed
+    if (buffer->size >= buffer->capacity) {
+        size_t newCapacity = buffer->capacity * 2;
+        if (newCapacity == 0) {
+            newCapacity = 1; // Start with capacity 1 if buffer is empty
         }
-        cb->buffer = new_buffer;
-        cb->capacity = new_capacity;
+
+        printf("Resizing buffer: old capacity = %zu, new capacity = %zu\n", buffer->capacity, newCapacity);
+
+        TopicMessagePair* newBuffer = (TopicMessagePair*)realloc(buffer->buffer, newCapacity * sizeof(TopicMessagePair));
+        if (!newBuffer) {
+            fprintf(stderr, "Failed to reallocate memory for the buffer.\n");
+            exit(EXIT_FAILURE);
+        }
+
+        buffer->buffer = newBuffer;
+        buffer->capacity = newCapacity;
     }
 
-    cb->buffer[cb->head] = task;
-    cb->head = (cb->head + 1) % cb->capacity;
-
-    CONDVAR_SIGNAL(cb->not_empty);
-    MUTEX_UNLOCK(cb->mutex);
-}
-
-PublishTask circular_buffer_remove(CircularBuffer* cb) {
-    MUTEX_LOCK(cb->mutex);
-    while (cb->head == cb->tail) {
-        // Buffer is empty; wait for not_empty signal
-        CONDVAR_WAIT(cb->not_empty, cb->mutex);
+    // Duplicate the topic string
+    buffer->buffer[buffer->size].topic = _strdup(topic);
+    if (!buffer->buffer[buffer->size].topic) {
+        fprintf(stderr, "Failed to allocate memory for topic.\n");
+        exit(EXIT_FAILURE);
     }
 
-    PublishTask task = cb->buffer[cb->tail];
-    cb->tail = (cb->tail + 1) % cb->capacity;
+    // Duplicate the message string
+    buffer->buffer[buffer->size].message = _strdup(message);
+    if (!buffer->buffer[buffer->size].message) {
+        fprintf(stderr, "Failed to allocate memory for message.\n");
+        exit(EXIT_FAILURE);
+    }
 
-    // Optionally signal not_full if implementing bounded buffer
-    // CONDVAR_SIGNAL(cb->not_full);
+    // Increment buffer size
+    buffer->size++;
 
-    MUTEX_UNLOCK(cb->mutex);
-    return task;
+    printf("Buffer updated: size = %zu, capacity = %zu\n", buffer->size, buffer->capacity);
 }
 
-void circular_buffer_destroy(CircularBuffer* cb) {
-    free(cb->buffer);
-    MUTEX_DESTROY(cb->mutex);
-    // No need to destroy condition variables explicitly on Windows
-    free(cb);
-}*/
+
+// Free the dynamic buffer and its contents
+void freeBuffer(DynamicBuffer* buffer) {
+    for (size_t i = 0; i < buffer->size; i++) {
+        free(buffer->buffer[i].topic);   // Free the topic string
+        free(buffer->buffer[i].message); // Free the message string
+    }
+    free(buffer->buffer); // Free the buffer array
+    buffer->buffer = NULL;
+    buffer->size = 0;
+    buffer->capacity = 0;
+}
+
+// Print buffer contents (for debugging)
+void printBufferContents(DynamicBuffer* buffer) {
+    printf("Buffer Contents (Size: %zu, Capacity: %zu):\n", buffer->size, buffer->capacity);
+    for (size_t i = 0; i < buffer->size; i++) {
+        printf("  [%zu] Topic: %s, Message: %s\n", i, buffer->buffer[i].topic, buffer->buffer[i].message);
+    }
+}

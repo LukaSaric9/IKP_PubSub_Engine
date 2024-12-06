@@ -22,13 +22,28 @@ void insertIntoHashMapWithLock(HashMap* map, const char* topic, SOCKET socket) {
 
     unsigned int index = hashFunction(topic);
     HashMapNode* current = map->buckets[index];
+
+    // Traverse the hash map bucket to find the topic
     while (current) {
         if (strcmp(current->topic, topic) == 0) {
+            // Check if the subscriber is already subscribed
+            SubscriberNode* subscriber = current->subscribers;
+            while (subscriber) {
+                if (subscriber->socket == socket) {
+                    printf("Socket %d is already subscribed to topic '%s'.\n", socket, topic);
+
+                    ReleaseMutex(hashMapMutex); // Release mutex
+                    return; // Exit function without adding the socket
+                }
+                subscriber = subscriber->next;
+            }
+
             // Add the subscriber to the topic
-            SubscriberNode* subscriber = (SubscriberNode*)malloc(sizeof(SubscriberNode));
-            subscriber->socket = socket;
-            subscriber->next = current->subscribers;
-            current->subscribers = subscriber;
+            SubscriberNode* newSubscriber = (SubscriberNode*)malloc(sizeof(SubscriberNode));
+            newSubscriber->socket = socket;
+            newSubscriber->next = current->subscribers;
+            current->subscribers = newSubscriber;
+            printf("Subscriber added to topic: %s\n", topic);
 
             ReleaseMutex(hashMapMutex); // Release mutex
             return;
@@ -44,9 +59,12 @@ void insertIntoHashMapWithLock(HashMap* map, const char* topic, SOCKET socket) {
     newNode->subscribers->next = NULL;
     newNode->next = map->buckets[index];
     map->buckets[index] = newNode;
+    printf("Subscriber added to topic: %s\n", topic);
+
 
     ReleaseMutex(hashMapMutex); // Release mutex
 }
+
 
 SubscriberNode* getSubscribersWithLock(HashMap* map, const char* topic) {
     WaitForSingleObject(hashMapMutex, INFINITE); // Lock mutex
