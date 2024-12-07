@@ -16,5 +16,8 @@ void CleanupThreadPool();
 DWORD WINAPI WorkerFunction(LPVOID lpParam);
 void InitializeGlobalData();
 void CleanupGlobalData();
+void InitializeMessageThreadPool();
+void CleanupMessageThreadPool();
+DWORD WINAPI MessageWorkerFunction(LPVOID lpParam);
 
 #endif // THREAD_POOL_H

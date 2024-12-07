@@ -61,6 +61,7 @@ int main()
     InitializeGlobalData();
     // Initialize thread pool
     InitializeThreadPool();
+    InitializeMessageThreadPool();
 
     do
     {
@@ -92,6 +93,7 @@ int main()
 
     CleanupThreadPool();
     CleanupGlobalData();
+    CleanupMessageThreadPool();
 
     closesocket(listenSocket);
     WSACleanup();

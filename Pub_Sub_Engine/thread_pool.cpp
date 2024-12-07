@@ -15,6 +15,7 @@ SOCKET storageSocket = INVALID_SOCKET;
 HashMap topicSubscribers; // Use the custom HashMap for topic-subscriber mapping
 DynamicBuffer publishedMessagesBuffer;
 HANDLE publishedMessagesMutex; // Mutex for publishedMessages
+HANDLE messageThreadPool[MAX_MESSAGE_THREADS];
 
 void notifySubscribers(const char* topic, const char* message);
 void SendToStorage(const char* message);
@@ -53,12 +54,10 @@ void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
 
         WaitForSingleObject(publishedMessagesMutex, INFINITE);
         storeTopicMessage(&publishedMessagesBuffer, topic, content); // Store the topic-message pair
-        SendToStorage(content);
+        //SendToStorage(content);
         printBufferContents(&publishedMessagesBuffer);              // Optional: Debug output
         ReleaseMutex(publishedMessagesMutex);
 
-        //zatim obavestavanje svih klijenata koji su subscribovani
-        notifySubscribers(topic, content);
     } 
     else {
         printf("Invalid publisher message format.\n");
@@ -207,6 +206,42 @@ DWORD WINAPI WorkerFunction(LPVOID lpParam) {
     return 0;
 }
 
+// Worker function for processing published messages
+DWORD WINAPI MessageWorkerFunction(LPVOID lpParam) {
+    while (true) {
+        WaitForSingleObject(publishedMessagesMutex, INFINITE);
+
+        // Check if the buffer contains any messages
+        if (publishedMessagesBuffer.size > 0) {
+            // Get the first message from the buffer
+            TopicMessagePair messagePair = publishedMessagesBuffer.buffer[0];
+
+            // Shift remaining messages in the buffer
+            for (size_t i = 1; i < publishedMessagesBuffer.size; i++) {
+                publishedMessagesBuffer.buffer[i - 1] = publishedMessagesBuffer.buffer[i];
+            }
+            publishedMessagesBuffer.size--;
+
+            ReleaseMutex(publishedMessagesMutex);
+
+            // Notify subscribers and send the message to the storage service
+            notifySubscribers(messagePair.topic, messagePair.message);
+            SendToStorage(messagePair.message);
+
+            // Free the memory for the topic and message
+            free(messagePair.topic);
+            free(messagePair.message);
+        }
+        else {
+            ReleaseMutex(publishedMessagesMutex);
+            Sleep(10); // Prevent busy-waiting
+        }
+    }
+    return 0;
+}
+
+
+
 // Initialize the thread pool
 void InitializeThreadPool()
 {
@@ -226,4 +261,19 @@ void CleanupThreadPool()
         CloseHandle(threadPool[i]);
     }
     CloseHandle(clientQueueMutex);
+}
+
+// Initialize the thread pool for processing messages
+void InitializeMessageThreadPool() {
+    for (int i = 0; i < MAX_MESSAGE_THREADS; i++) {
+        messageThreadPool[i] = CreateThread(NULL, 0, MessageWorkerFunction, NULL, 0, NULL);
+    }
+}
+
+// Cleanup the message processing thread pool
+void CleanupMessageThreadPool() {
+    for (int i = 0; i < MAX_MESSAGE_THREADS; i++) {
+        TerminateThread(messageThreadPool[i], 0);
+        CloseHandle(messageThreadPool[i]);
+    }
 }
