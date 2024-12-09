@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "conio.h"
 #include <ws2tcpip.h>
+#include "MessageProcessing.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
@@ -79,8 +80,44 @@ int main(void)
         return 1;
     }
 
+    printf("-----Storage Service-----\n");
+    while (true) {
+        printf("\nChoose an option:\n1. Display all messages\n2. Search by topic\n3. Close The Storage Service\n");
+        char number = 0;
+        number = getchar();
+        fflush(stdin);
+        switch (number) {
+            case '1':
+                ReadAllMessages();
+                break;
+            case '2':
+                printf("Enter your topic -> ");
+                char topic[30];
+                if (scanf_s("%29s", topic, (unsigned)_countof(topic)) != 1) {
+                    printf("Failed to read topic.\n");
+                    break; // Exit if input fails
+                }
+                fflush(stdin);
+                SearchMessages(topic);
+                break;
+            case '3':
+                CleanupMessages();
+                iResult = shutdown(connectSocket, SD_BOTH);
+                closesocket(connectSocket);
+                WSACleanup();
+                return 0;
+            default:
+                printf("You must choose a valid option!\n");
+                break;               
+        }
+
+    }
+
     // Wait for the receive thread to finish
     WaitForSingleObject(receiveThread, INFINITE);
+
+    // Cleanup all messages when done
+    CleanupMessages();
 
     iResult = shutdown(connectSocket, SD_BOTH);
 
@@ -115,35 +152,5 @@ bool InitializeWindowsSockets()
     return true;
 }
 
-// Thread function for receiving messages from the server
-DWORD WINAPI ReceiveMessages(LPVOID lpParam)
-{
-    SOCKET connectSocket = (SOCKET)lpParam;
-    char recvBuffer[BUFFER_SIZE];
-    int bytesReceived;
-
-    while (true)
-    {
-        // Receive data from the server
-        bytesReceived = recv(connectSocket, recvBuffer, BUFFER_SIZE - 1, 0);
-        if (bytesReceived > 0)
-        {
-            recvBuffer[bytesReceived] = '\0'; // Null-terminate the message
-            printf("\nMessage received from server: %s\n", recvBuffer);
-        }
-        else if (bytesReceived == 0)
-        {
-            printf("Server disconnected.\n");
-            break;
-        }
-        else
-        {
-            printf("recv failed with error: %d\n", WSAGetLastError());
-            break;
-        }
-    }
-
-    return 0;
-}
 
 

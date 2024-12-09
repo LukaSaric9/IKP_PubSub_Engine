@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "thread_pool.h"  
 #include "hashmap.h"
 #include "buffer.h"
@@ -19,6 +20,7 @@ HANDLE messageThreadPool[MAX_MESSAGE_THREADS];
 
 void notifySubscribers(const char* topic, const char* message);
 void SendToStorage(const char* message);
+char* format_struct_to_string(const TopicMessagePair* my_struct);
 
 // Initialize global structures and mutex
 void InitializeGlobalData() {
@@ -226,11 +228,16 @@ DWORD WINAPI MessageWorkerFunction(LPVOID lpParam) {
 
             // Notify subscribers and send the message to the storage service
             notifySubscribers(messagePair.topic, messagePair.message);
-            SendToStorage(messagePair.message);
+            char* storageMessage = format_struct_to_string(&messagePair);
+            if (storageMessage) {
+                printf("Formatted string: %s\n", storageMessage);
+            }
+            SendToStorage(storageMessage);
 
             // Free the memory for the topic and message
             free(messagePair.topic);
             free(messagePair.message);
+            free(storageMessage);
         }
         else {
             ReleaseMutex(publishedMessagesMutex);
@@ -276,4 +283,22 @@ void CleanupMessageThreadPool() {
         TerminateThread(messageThreadPool[i], 0);
         CloseHandle(messageThreadPool[i]);
     }
+}
+
+char* format_struct_to_string(const TopicMessagePair* my_struct) {
+    // Calculate the required length for the resulting string.
+    // Include 1 for the colon and 1 for the null-terminator.
+    size_t length = strlen(my_struct->topic) + strlen(my_struct->message) + 2;
+
+    // Allocate memory for the formatted string.
+    char* formatted_string = (char*)malloc(length);
+    if (!formatted_string) {
+        perror("Failed to allocate memory");
+        return NULL;
+    }
+
+    // Format the string.
+    sprintf(formatted_string, "%s:%s", my_struct->topic, my_struct->message);
+
+    return formatted_string; // Caller is responsible for freeing this memory.
 }

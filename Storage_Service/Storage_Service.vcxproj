@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MessageProcessing.cpp" />
     <ClCompile Include="Storage_Service.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MessageProcessing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
