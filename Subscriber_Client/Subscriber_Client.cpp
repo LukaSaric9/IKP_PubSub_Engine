@@ -19,10 +19,28 @@
 #define BUFFER_SIZE 1024
 
 bool InitializeWindowsSockets();
+void connect();
+void flushInputBuffer();
 DWORD WINAPI ReceiveMessages(LPVOID lpParam);
+void Subscribe(SOCKET connectSocket, const char* topic);
 
 int main()
 {
+    printf("-----Subscriber Client-----\n");
+    printf("Press any key to connect to the service (0 for exit) -> ");
+    char c;
+    scanf_s("%c", &c, 1);
+    flushInputBuffer();
+    if (c != '0') {
+        connect();
+    }
+
+    printf("\nClosing the client...\n");
+    Sleep(2000);
+    return 0;
+}
+
+void connect() {
     SOCKET connectSocket = INVALID_SOCKET;
 
     int iResult;
@@ -31,7 +49,7 @@ int main()
 
     if (InitializeWindowsSockets() == false)
     {
-        return 1;
+        return;
     }
 
     connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -40,7 +58,7 @@ int main()
     {
         printf("socket failed with error: %ld\n", WSAGetLastError());
         WSACleanup();
-        return 1;
+        return;
     }
 
     sockaddr_in serverAddress;
@@ -54,6 +72,7 @@ int main()
         printf("Unable to connect to server.\n");
         closesocket(connectSocket);
         WSACleanup();
+        return;
     }
 
     // Create a thread to handle receiving messages from the server
@@ -63,28 +82,24 @@ int main()
         printf("Failed to create receive thread. Error: %ld\n", GetLastError());
         closesocket(connectSocket);
         WSACleanup();
-        return 1;
+        return;
     }
 
     while (true) {
         Sleep(100);
-        printf("Enter topic to subscribe: ");
+        printf("Enter topic to subscribe (or type 'exit' to quit): ");
         gets_s(dataBuffer, BUFFER_SIZE);
 
-        // Prepend SUBSCRIBER identifier
-        char message[BUFFER_SIZE];
-        snprintf(message, BUFFER_SIZE, "SUBSCRIBER:%s", dataBuffer);
-
-        iResult = send(connectSocket, message, (int)strlen(message), 0);
-
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %d\n", WSAGetLastError());
+        // Exit condition
+        if (strcmp(dataBuffer, "exit") == 0) {
+            shutdown(connectSocket, SD_BOTH);
             closesocket(connectSocket);
             WSACleanup();
-            return 1;
+            return;
         }
 
-        printf("Topic successfully sent. Total bytes: %ld\n", iResult);
+        // Call Subscribe function to subscribe to the entered topic
+        Subscribe(connectSocket, dataBuffer);
     }
 
     // Wait for the receive thread to finish
@@ -98,20 +113,14 @@ int main()
         printf("Shutdown failed with error: %d\n", WSAGetLastError());
         closesocket(connectSocket);
         WSACleanup();
-        return 1;
+        return;
     }
-
-    // For demonstration purpose
-    printf("\nPress any key to exit: ");
-    _getch();
-
 
     // Close connected socket
     closesocket(connectSocket);
 
     // Deinitialize WSA library
     WSACleanup();
-    return 0;
 }
 
 
@@ -141,7 +150,7 @@ DWORD WINAPI ReceiveMessages(LPVOID lpParam)
         if (bytesReceived > 0)
         {
             recvBuffer[bytesReceived] = '\0'; // Null-terminate the message
-            printf("\nMessage received from server: %s\n", recvBuffer);
+            printf("\n%s\n", recvBuffer);
         }
         else if (bytesReceived == 0)
         {
@@ -156,6 +165,31 @@ DWORD WINAPI ReceiveMessages(LPVOID lpParam)
     }
 
     return 0;
+}
+
+void flushInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+        // Discard characters until a newline or EOF
+    }
+}
+
+void Subscribe(SOCKET connectSocket, const char* topic) {
+    char message[BUFFER_SIZE];
+    int iResult;
+
+    // Prepend SUBSCRIBER identifier to the topic
+    snprintf(message, BUFFER_SIZE, "SUBSCRIBER:%s", topic);
+
+    // Send the subscription message to the server
+    iResult = send(connectSocket, message, (int)strlen(message), 0);
+
+    if (iResult == SOCKET_ERROR) {
+        printf("send failed with error: %d\n", WSAGetLastError());
+        closesocket(connectSocket);
+        WSACleanup();
+        exit(1); // Exit the application if sending fails
+    }
 }
 
 

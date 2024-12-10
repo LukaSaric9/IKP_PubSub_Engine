@@ -14,25 +14,26 @@ SOCKET storageSocket = INVALID_SOCKET;
 
 // Define the global data structures
 HashMap topicSubscribers; // Use the custom HashMap for topic-subscriber mapping
-DynamicBuffer publishedMessagesBuffer;
+CircularBuffer publishedMessagesBuffer;
 HANDLE publishedMessagesMutex; // Mutex for publishedMessages
 HANDLE messageThreadPool[MAX_MESSAGE_THREADS];
 
 void notifySubscribers(const char* topic, const char* message);
 void SendToStorage(const char* message);
 char* format_struct_to_string(const TopicMessagePair* my_struct);
+char* format_for_client(const char* topic, const char* message);
 
 // Initialize global structures and mutex
 void InitializeGlobalData() {
     initializeHashMapWithMutex(&topicSubscribers);
-    initializeBuffer(&publishedMessagesBuffer);
+    initializeCircularBuffer(&publishedMessagesBuffer);
     publishedMessagesMutex = CreateMutex(NULL, FALSE, NULL); // Mutex for publishedMessages
 }
 
 // Clean up global structures
 void CleanupGlobalData() {
     freeHashMapWithMutex(&topicSubscribers);
-    freeBuffer(&publishedMessagesBuffer);
+    freeCircularBuffer(&publishedMessagesBuffer);
     CloseHandle(publishedMessagesMutex);
 }
 
@@ -51,12 +52,10 @@ void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
         strncpy_s(topic, message, topicLength);
         topic[topicLength] = '\0';
 
-        strncpy_s(content, delimeter + 1, sizeof(content - 1));
-        content[sizeof(content) - 1] = '\0';
+        strncpy_s(content, sizeof(content), delimeter + 1, _TRUNCATE);
 
-        WaitForSingleObject(publishedMessagesMutex, INFINITE);
-        storeTopicMessage(&publishedMessagesBuffer, topic, content); // Store the topic-message pair
-        //SendToStorage(content);
+        WaitForSingleObject(publishedMessagesMutex, INFINITE);;
+        storeTopicMessageCircular(&publishedMessagesBuffer, topic, content); // Store the topic-message pair
         printBufferContents(&publishedMessagesBuffer);              // Optional: Debug output
         ReleaseMutex(publishedMessagesMutex);
 
@@ -69,6 +68,7 @@ void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
 
 void notifySubscribers(const char* topic, const char* message) {
     printf("Notifying subscribers for topic: '%s'\n", topic);
+    char* client_message = format_for_client(topic, message);
 
     // Lock the hash map to safely access subscribers
     SubscriberNode* subscribers = getSubscribersWithLock(&topicSubscribers, topic);
@@ -77,16 +77,17 @@ void notifySubscribers(const char* topic, const char* message) {
         SOCKET subscriberSocket = subscribers->socket;
 
         // Send the message to the subscriber
-        int sendResult = send(subscriberSocket, message, strlen(message), 0);
+        int sendResult = send(subscriberSocket, client_message, strlen(client_message), 0);
         if (sendResult == SOCKET_ERROR) {
             printf("Failed to send message to subscriber. Error: %d\n", WSAGetLastError());
         }
         else {
-            printf("Message sent to subscriber (socket: %lld): '%s'\n", (long long)subscriberSocket, message);
+            printf("Message sent to subscriber (socket: %lld): '%s'\n", (long long)subscriberSocket, client_message);
         }
 
         subscribers = subscribers->next;
     }
+    free(client_message);
 
     printf("Finished notifying subscribers for topic: '%s'\n", topic);
 }
@@ -208,21 +209,14 @@ DWORD WINAPI WorkerFunction(LPVOID lpParam) {
     return 0;
 }
 
-// Worker function for processing published messages
 DWORD WINAPI MessageWorkerFunction(LPVOID lpParam) {
     while (true) {
         WaitForSingleObject(publishedMessagesMutex, INFINITE);
 
         // Check if the buffer contains any messages
         if (publishedMessagesBuffer.size > 0) {
-            // Get the first message from the buffer
-            TopicMessagePair messagePair = publishedMessagesBuffer.buffer[0];
-
-            // Shift remaining messages in the buffer
-            for (size_t i = 1; i < publishedMessagesBuffer.size; i++) {
-                publishedMessagesBuffer.buffer[i - 1] = publishedMessagesBuffer.buffer[i];
-            }
-            publishedMessagesBuffer.size--;
+            // Read the first message from the circular buffer
+            TopicMessagePair messagePair = readFromCircularBuffer(&publishedMessagesBuffer);
 
             ReleaseMutex(publishedMessagesMutex);
 
@@ -246,6 +240,7 @@ DWORD WINAPI MessageWorkerFunction(LPVOID lpParam) {
     }
     return 0;
 }
+
 
 
 
@@ -299,6 +294,24 @@ char* format_struct_to_string(const TopicMessagePair* my_struct) {
 
     // Format the string.
     sprintf(formatted_string, "%s:%s", my_struct->topic, my_struct->message);
+
+    return formatted_string; // Caller is responsible for freeing this memory.
+}
+
+char* format_for_client(const char* topic, const char* message) {
+    // Calculate the required length for the resulting string.
+    // Include 1 for the colon and 1 for the null-terminator.
+    size_t length = strlen(topic) + strlen(message) + 3;
+
+    // Allocate memory for the formatted string.
+    char* formatted_string = (char*)malloc(length);
+    if (!formatted_string) {
+        perror("Failed to allocate memory");
+        return NULL;
+    }
+
+    // Format the string.
+    sprintf(formatted_string, "%s: %s", topic, message);
 
     return formatted_string; // Caller is responsible for freeing this memory.
 }

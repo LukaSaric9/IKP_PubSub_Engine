@@ -9,17 +9,20 @@ typedef struct {
     char* message; // Message string
 } TopicMessagePair;
 
-// Define the dynamic buffer structure
+// Define the circular buffer structure
 typedef struct {
-    TopicMessagePair* buffer; // Array of topic-message pairs
-    size_t size;              // Current number of elements
-    size_t capacity;          // Current capacity of the buffer
-} DynamicBuffer;
+    TopicMessagePair* buffer;  // Array of topic-message pairs
+    size_t capacity;           // Capacity of the buffer
+    size_t head;               // Index for the next element to be written
+    size_t tail;               // Index for the next element to be read
+    size_t size;                // Current number of messages in the buffer
+} CircularBuffer;
 
 // Function declarations
-void initializeBuffer(DynamicBuffer* buffer);
-void storeTopicMessage(DynamicBuffer* buffer, const char* topic, const char* message);
-void freeBuffer(DynamicBuffer* buffer);
-void printBufferContents(DynamicBuffer* buffer);
+void initializeCircularBuffer(CircularBuffer* buffer);
+void storeTopicMessageCircular(CircularBuffer* buffer, const char* topic, const char* message);
+TopicMessagePair readFromCircularBuffer(CircularBuffer* buffer);
+void freeCircularBuffer(CircularBuffer* buffer);
+void printBufferContents(CircularBuffer* buffer);
 
 #endif // BUFFER_H

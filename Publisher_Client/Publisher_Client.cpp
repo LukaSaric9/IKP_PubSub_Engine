@@ -19,27 +19,45 @@
 #define BUFFER_SIZE 1024
 
 bool InitializeWindowsSockets();
+void connect();
+void Publish(SOCKET connectSocket, const char* topic, const char* message);
+void flushInputBuffer();
 
-int main()
+int main(void)
 {
+    printf("-----Publisher Client-----\n");
+    printf("Press any key to connect to the service (0 for exit) -> ");
+    char c;
+    scanf_s("%c", &c, 1);
+    flushInputBuffer();
+    if (c != '0') {
+        connect();
+    }
+
+    printf("\nClosing the client...\n");
+    Sleep(2000);
+    return 0;
+}
+
+void connect() {
     SOCKET connectSocket = INVALID_SOCKET;
+    char topic[BUFFER_SIZE];
+    char messageContent[BUFFER_SIZE];
 
     int iResult;
 
-    char dataBuffer[BUFFER_SIZE];
-
     if (InitializeWindowsSockets() == false)
     {
-        return 1;
+        return;
     }
 
-    connectSocket = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
+    connectSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     if (connectSocket == INVALID_SOCKET)
     {
         printf("socket failed with error: %ld\n", WSAGetLastError());
         WSACleanup();
-        return 1;
+        return;
     }
 
     sockaddr_in serverAddress;
@@ -53,26 +71,42 @@ int main()
         printf("Unable to connect to server.\n");
         closesocket(connectSocket);
         WSACleanup();
+        return;
     }
 
     while (true) {
-        printf("Enter your topic: ");
-        gets_s(dataBuffer, BUFFER_SIZE);
-
-        // Prepend PUBLISHER identifier
-        char message[BUFFER_SIZE];
-        snprintf(message, BUFFER_SIZE, "PUBLISHER:%s", dataBuffer);
-
-        iResult = send(connectSocket, message, (int)strlen(message), 0);
-
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %d\n", WSAGetLastError());
-            closesocket(connectSocket);
-            WSACleanup();
-            return 1;
+        printf("Enter your topic (or type 'exit' to quit): ");
+        if (fgets(topic, BUFFER_SIZE, stdin) == NULL) {
+            printf("Error reading topic.\n");
+            continue;
         }
 
-        printf("Message successfully sent. Total bytes: %ld\n", iResult);
+        // Remove newline character from topic if present
+        size_t topicLength = strlen(topic);
+        if (topic[topicLength - 1] == '\n') {
+            topic[topicLength - 1] = '\0';
+        }
+
+        // Exit condition
+        if (strcmp(topic, "exit") == 0) {
+            break;
+        }
+
+        // Input message content
+        printf("Enter your message: ");
+        if (fgets(messageContent, BUFFER_SIZE, stdin) == NULL) {
+            printf("Error reading message.\n");
+            continue;
+        }
+
+        // Remove newline character from messageContent if present
+        size_t messageLength = strlen(messageContent);
+        if (messageContent[messageLength - 1] == '\n') {
+            messageContent[messageLength - 1] = '\0';
+        }
+
+        // Call Publish function to send the message
+        Publish(connectSocket, topic, messageContent);
     }
 
 
@@ -84,20 +118,14 @@ int main()
         printf("Shutdown failed with error: %d\n", WSAGetLastError());
         closesocket(connectSocket);
         WSACleanup();
-        return 1;
+        return;
     }
-
-    // For demonstration purpose
-    printf("\nPress any key to exit: ");
-    _getch();
-
 
     // Close connected socket
     closesocket(connectSocket);
 
     // Deinitialize WSA library
     WSACleanup();
-    return 0;
 }
 
 
@@ -111,6 +139,32 @@ bool InitializeWindowsSockets()
         return false;
     }
     return true;
+}
+
+void flushInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {
+        // Discard characters until a newline or EOF
+    }
+}
+
+void Publish(SOCKET connectSocket, const char* topic, const char* message) {
+    char finalMessage[BUFFER_SIZE];
+    int iResult;
+
+    // Format the final message as PUBLISHER:topic:message
+    snprintf(finalMessage, BUFFER_SIZE, "PUBLISHER:%s:%s", topic, message);
+    // Send the formatted message to the server
+    iResult = send(connectSocket, finalMessage, (int)strlen(finalMessage), 0);
+
+    if (iResult == SOCKET_ERROR) {
+        printf("send failed with error: %d\n", WSAGetLastError());
+        closesocket(connectSocket);
+        WSACleanup();
+        exit(1); // Exit the application if sending fails
+    }
+
+    printf("Message successfully sent to topic '%s'. Total bytes sent: %d\n", topic, iResult);
 }
 
 

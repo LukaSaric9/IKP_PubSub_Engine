@@ -11,16 +11,25 @@
 
 
 bool InitializeWindowsSockets();
+void connect();
 
 int main()
 {
+    printf("----- Publish Subscribe Service -----\n");
+    connect();
+    printf("\nService is closing...\n");
+    Sleep(2000);
+    return 0;
+}
+
+void connect() {
     SOCKET listenSocket = INVALID_SOCKET;
     SOCKET acceptedSocket = INVALID_SOCKET;
     int iResult;
 
     if (InitializeWindowsSockets() == false)
     {
-        return 1;
+        return;
     }
 
     sockaddr_in serverAddress;
@@ -35,7 +44,7 @@ int main()
     {
         printf("socket failed with error: %ld\n", WSAGetLastError());
         WSACleanup();
-        return 1;
+        return;
     }
 
     iResult = bind(listenSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress));
@@ -44,7 +53,7 @@ int main()
         printf("bind failed with error: %d\n", WSAGetLastError());
         closesocket(listenSocket);
         WSACleanup();
-        return 1;
+        return;
     }
 
     iResult = listen(listenSocket, SOMAXCONN);
@@ -53,13 +62,12 @@ int main()
         printf("listen failed with error: %d\n", WSAGetLastError());
         closesocket(listenSocket);
         WSACleanup();
-        return 1;
+        return;
     }
 
     printf("Server socket is set to listening mode. Waiting for new connection requests.\n");
-    
+
     InitializeGlobalData();
-    // Initialize thread pool
     InitializeThreadPool();
     InitializeMessageThreadPool();
 
@@ -91,14 +99,12 @@ int main()
 
     } while (true);
 
-    CleanupThreadPool();
     CleanupGlobalData();
+    CleanupThreadPool();
     CleanupMessageThreadPool();
 
     closesocket(listenSocket);
     WSACleanup();
-
-    return 0;
 }
 
 bool InitializeWindowsSockets()
