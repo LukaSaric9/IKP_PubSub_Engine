@@ -7,28 +7,32 @@
       "RelativeMoniker": "D:0:0:{9E8BD184-7925-4C0F-86D8-1D376C586363}|Subscriber_Client\\Subscriber_Client.vcxproj|solutionrelative:Subscriber_Client\\Subscriber_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\Storage_Service.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|solutionrelative:Storage_Service\\Storage_Service.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\hashmap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\MessageProcessing.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|solutionrelative:Storage_Service\\MessageProcessing.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|solutionrelative:Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\thread_pool.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\MessageProcessing.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|solutionrelative:Storage_Service\\MessageProcessing.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\Storage_Service.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{14F15347-E08C-446B-846E-1311A85F2378}|Storage_Service\\Storage_Service.vcxproj|solutionrelative:Storage_Service\\Storage_Service.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{43BB7685-463C-45B8-BC32-9E4AF073B9F0}|Publisher_Client\\Publisher_Client.vcxproj|solutionrelative:Publisher_Client\\Publisher_Client.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -37,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\buffer.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|solutionrelative:Pub_Sub_Engine\\hashmap.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0466C41F-2D9A-4E1D-B6A7-7A7E81E5FC1B}|Pub_Sub_Engine\\Pub_Sub_Engine.vcxproj|C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -81,32 +81,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "thread_pool.cpp",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp",
               "RelativeDocumentMoniker": "Pub_Sub_Engine\\thread_pool.cpp",
               "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\thread_pool.cpp",
               "RelativeToolTip": "Pub_Sub_Engine\\thread_pool.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAgAAAA",
+              "ViewState": "AQIAAB0BAAAAAAAAAAAUwD0BAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-22T13:34:39.352Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "buffer.cpp",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.cpp",
               "RelativeDocumentMoniker": "Pub_Sub_Engine\\buffer.cpp",
               "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.cpp",
               "RelativeToolTip": "Pub_Sub_Engine\\buffer.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAABHAAAA",
+              "ViewState": "AQIAAFYAAAAAAAAAAAAQwGYAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-23T11:25:51.113Z"
+              "WhenOpened": "2024-11-23T11:25:51.113Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "buffer.h",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\buffer.h",
               "RelativeDocumentMoniker": "Pub_Sub_Engine\\buffer.h",
@@ -118,15 +119,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 1,
               "Title": "hashmap.cpp",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.cpp",
               "RelativeDocumentMoniker": "Pub_Sub_Engine\\hashmap.cpp",
               "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\hashmap.cpp",
               "RelativeToolTip": "Pub_Sub_Engine\\hashmap.cpp",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AQIAAHgAAAAAAAAAAAAQwIQAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-11-22T14:19:14.805Z"
+              "WhenOpened": "2024-11-22T14:19:14.805Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -142,7 +144,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "common.h",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\common.h",
               "RelativeDocumentMoniker": "Pub_Sub_Engine\\common.h",
@@ -158,22 +160,22 @@
               "Title": "Subscriber_Client.cpp",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Subscriber_Client\\Subscriber_Client.cpp",
               "RelativeDocumentMoniker": "Subscriber_Client\\Subscriber_Client.cpp",
-              "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Subscriber_Client\\Subscriber_Client.cpp",
-              "RelativeToolTip": "Subscriber_Client\\Subscriber_Client.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Subscriber_Client\\Subscriber_Client.cpp*",
+              "RelativeToolTip": "Subscriber_Client\\Subscriber_Client.cpp*",
+              "ViewState": "AQIAAKMAAAAAAAAAAAAQwLsAAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-22T13:27:12.651Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "Publisher_Client.cpp",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp",
               "RelativeDocumentMoniker": "Publisher_Client\\Publisher_Client.cpp",
               "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Publisher_Client\\Publisher_Client.cpp",
               "RelativeToolTip": "Publisher_Client\\Publisher_Client.cpp",
-              "ViewState": "AQIAAIwAAAAAAAAAAAAAwJUAAAAAAAAA",
+              "ViewState": "AQIAAIoAAAAAAAAAAAAQwJ4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-22T13:27:11.558Z",
               "EditorCaption": ""
@@ -186,7 +188,7 @@
               "RelativeDocumentMoniker": "Pub_Sub_Engine\\main.cpp",
               "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Pub_Sub_Engine\\main.cpp",
               "RelativeToolTip": "Pub_Sub_Engine\\main.cpp",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAAwBEAAAA2AAAA",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAQwHgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-11-22T13:27:10.335Z",
               "EditorCaption": ""
@@ -205,26 +207,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "MessageProcessing.cpp",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\MessageProcessing.cpp",
               "RelativeDocumentMoniker": "Storage_Service\\MessageProcessing.cpp",
               "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\MessageProcessing.cpp",
               "RelativeToolTip": "Storage_Service\\MessageProcessing.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-07T14:00:06.337Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "Storage_Service.cpp",
               "DocumentMoniker": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\Storage_Service.cpp",
               "RelativeDocumentMoniker": "Storage_Service\\Storage_Service.cpp",
               "ToolTip": "C:\\Users\\KORISNIK\\Documents\\GitHub\\pr48_2021_WEB\\IKP_PubSub_Engine\\Storage_Service\\Storage_Service.cpp",
               "RelativeToolTip": "Storage_Service\\Storage_Service.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAYAAAA",
+              "ViewState": "AQIAAHwAAAAAAAAAAAAQwJwAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-06T14:34:11.834Z",
               "EditorCaption": ""
