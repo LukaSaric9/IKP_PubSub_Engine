@@ -97,6 +97,7 @@ void connect() {
         }
         ReleaseMutex(clientQueueMutex);
 
+
     } while (true);
 
     CleanupGlobalData();
