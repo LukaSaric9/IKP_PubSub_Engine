@@ -22,6 +22,7 @@
 
 bool InitializeWindowsSockets();
 DWORD WINAPI ReceiveMessages(LPVOID lpParam);
+void clearInputBuffer();
 
 int main(void)
 {
@@ -85,7 +86,7 @@ int main(void)
         printf("\nChoose an option:\n1. Display all messages\n2. Search by topic\n3. Close The Storage Service\n");
         char number = 0;
         number = getchar();
-        fflush(stdin);
+        clearInputBuffer();
         switch (number) {
             case '1':
                 ReadAllMessages();
@@ -95,9 +96,10 @@ int main(void)
                 char topic[30];
                 if (scanf_s("%29s", topic, (unsigned)_countof(topic)) != 1) {
                     printf("Failed to read topic.\n");
+                    clearInputBuffer();
                     break; // Exit if input fails
                 }
-                fflush(stdin);
+                clearInputBuffer();
                 SearchMessages(topic);
                 break;
             case '3':
@@ -138,6 +140,11 @@ int main(void)
 
 
     return 0;
+}
+
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 bool InitializeWindowsSockets()
