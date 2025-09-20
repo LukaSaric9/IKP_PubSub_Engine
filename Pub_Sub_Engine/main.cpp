@@ -4,6 +4,7 @@
 #include "common.h"
 #include "thread_pool.h"
 #include "hashmap.h"
+#include "pubsub.h"
 
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")

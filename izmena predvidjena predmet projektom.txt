@@ -1,0 +1,4 @@
+Mozda onda mi pada na pamet neki sistem prioriteta poruka da biram prioritet poruke koja se salje 
+i na osnovu prioriteta da se gleda koje server prve obradjuje, 
+i mozda neki dashboard da prikazuje statistike trenutnih konekcija, 
+npr poruke po sekundi, aktive konekcije, velicine poruka tako nesto mozda?

@@ -7,9 +7,6 @@
     <Filter Include="src\pubsub">
       <UniqueIdentifier>{d3675b5c-6ab5-4085-b5f2-f903e472b8e7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\storage">
-      <UniqueIdentifier>{f6f53f65-80ef-469a-8de6-eb896a88e68e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\hashmap">
       <UniqueIdentifier>{a040f615-e196-48be-ae1a-e5ec22c2962b}</UniqueIdentifier>
     </Filter>
@@ -30,9 +27,6 @@
     <ClCompile Include="pubsub.cpp">
       <Filter>src\pubsub</Filter>
     </ClCompile>
-    <ClCompile Include="storage.cpp">
-      <Filter>src\storage</Filter>
-    </ClCompile>
     <ClCompile Include="hashmap.cpp">
       <Filter>src\hashmap</Filter>
     </ClCompile>
@@ -52,9 +46,6 @@
   <ItemGroup>
     <ClInclude Include="pubsub.h">
       <Filter>src\pubsub</Filter>
-    </ClInclude>
-    <ClInclude Include="storage.h">
-      <Filter>src\storage</Filter>
     </ClInclude>
     <ClInclude Include="hashmap.h">
       <Filter>src\hashmap</Filter>

@@ -4,20 +4,35 @@
 #include "common.h"
 #include "hashmap.h"
 #include "buffer.h"
-#include "thread_pool.h"
-#include "storage.h"
-/*
-// Initialize the PubSub service
+
+// Global data structures
+extern HashMap topicSubscribers;
+extern CircularBuffer publishedMessagesBuffer;
+extern HANDLE publishedMessagesMutex;
+extern SOCKET storageSocket;
+
+// Core PubSub interface functions
 void Connect();
-
-// Subscribe a client to a topic
-void Subscribe(const char* topic, int client_socket);
-
-// Publish a message to a topic
+void Subscribe(const char* topic, SOCKET clientSocket);
 void Publish(const char* topic, const char* message);
-
-// Cleanup PubSub service
 void PubSub_Cleanup();
-*/
-#endif // PUBSUB_H 
+
+// Message processing functions
+void ProcessPublisherMessage(SOCKET clientSocket, const char* message);
+void ProcessSubscriberMessage(SOCKET clientSocket, const char* message);
+void ProcessClientMessage(SOCKET clientSocket);
+
+// Notification and storage functions
+void notifySubscribers(const char* topic, const char* message);
+void SendToStorage(const char* message);
+
+// Utility functions
+char* format_struct_to_string(const TopicMessagePair* my_struct);
+char* format_for_client(const char* topic, const char* message);
+
+// Global data management
+void InitializeGlobalData();
+void CleanupGlobalData();
+
+#endif // PUBSUB_H
 
