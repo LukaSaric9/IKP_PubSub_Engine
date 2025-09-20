@@ -30,19 +30,26 @@ DWORD WINAPI WorkerFunction(LPVOID lpParam) {
     return 0;
 }
 
-// Worker function for processing messages from circular buffer
+// Enhanced worker function for processing messages with priority support 
 DWORD WINAPI MessageWorkerFunction(LPVOID lpParam) {
     while (true) {
         WaitForSingleObject(publishedMessagesMutex, INFINITE);
 
+
         // Check if the buffer contains any messages
         if (publishedMessagesBuffer.size > 0) {
-            TopicMessagePair messagePair = readFromCircularBuffer(&publishedMessagesBuffer);
+            // Use priority-aware reading - highest priority messages first!
+            PriorityTopicMessagePair messagePair = readHighestPriorityFromCircularBuffer(&publishedMessagesBuffer);
             ReleaseMutex(publishedMessagesMutex);
 
             // Use PubSub functions for processing
-            notifySubscribers(messagePair.topic, messagePair.message);
-            char* storageMessage = format_struct_to_string(&messagePair);
+            printf("Processing %s priority message: %s:%s\n", 
+                   getPriorityName(messagePair.priority), messagePair.topic, messagePair.message);
+            
+            // Send priority-aware message to subscribers
+            notifySubscribersWithPriority(messagePair.topic, messagePair.message, messagePair.priority);
+            
+            char* storageMessage = format_priority_struct_to_string(&messagePair);
             if (storageMessage) {
                 SendToStorage(storageMessage);
                 free(storageMessage);

@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="buffer.cpp" />
+    <ClCompile Include="dashboard.cpp" />
     <ClCompile Include="hashmap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pubsub.cpp" />
@@ -138,6 +139,7 @@
   <ItemGroup>
     <ClInclude Include="buffer.h" />
     <ClInclude Include="common.h" />
+    <ClInclude Include="dashboard.h" />
     <ClInclude Include="hashmap.h" />
     <ClInclude Include="pubsub.h" />
     <ClInclude Include="thread_pool.h" />

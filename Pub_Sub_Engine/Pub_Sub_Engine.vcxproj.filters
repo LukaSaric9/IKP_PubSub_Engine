@@ -22,6 +22,9 @@
     <Filter Include="tests">
       <UniqueIdentifier>{436f94bf-ee7e-42ca-af99-6459793ff5bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\dashboard">
+      <UniqueIdentifier>{21f9e55b-4e1e-41c5-b88d-40b2582124f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pubsub.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="common.cpp">
       <Filter>include</Filter>
     </ClCompile>
+    <ClCompile Include="dashboard.cpp">
+      <Filter>src\dashboard</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pubsub.h">
@@ -58,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="common.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="dashboard.h">
+      <Filter>src\dashboard</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -34,10 +34,18 @@ void Subscribe(const char* topic, SOCKET clientSocket) {
 
 void Publish(const char* topic, const char* message) {
     WaitForSingleObject(publishedMessagesMutex, INFINITE);
-    storeTopicMessageCircular(&publishedMessagesBuffer, topic, message);
+    // Default to MEDIUM priority for backward compatibility
+    storePriorityTopicMessageCircular(&publishedMessagesBuffer, topic, message, PRIORITY_MEDIUM);
     ReleaseMutex(publishedMessagesMutex);
     printf("Message stored in buffer for async processing: %s:%s\n", topic, message);
+}
 
+void PublishWithPriority(const char* topic, const char* message, int priority) {
+    WaitForSingleObject(publishedMessagesMutex, INFINITE);
+    storePriorityTopicMessageCircular(&publishedMessagesBuffer, topic, message, priority);
+    ReleaseMutex(publishedMessagesMutex);
+    printf("Message stored in buffer for async processing: %s:%s (Priority: %s)\n", 
+           topic, message, getPriorityName(priority));
 }
 
 void PubSub_Cleanup() {
@@ -45,11 +53,52 @@ void PubSub_Cleanup() {
     printf("PubSub service cleaned up.\n");
 }
 
-// Process publisher messages
+// Process publisher messages with priority support
 void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
-    const char* delimiter = strchr(message, ':');
-    if (delimiter != NULL) {
-        size_t topicLength = delimiter - message;
+    // Try to parse new format: PRIORITY:topic:message
+    const char* firstDelimiter = strchr(message, ':');
+    if (firstDelimiter != NULL) {
+        // Check if first part is a number (priority)
+        char priorityStr[10];
+        size_t priorityLength = firstDelimiter - message;
+        
+        if (priorityLength < sizeof(priorityStr)) {
+            strncpy_s(priorityStr, message, priorityLength);
+            priorityStr[priorityLength] = '\0';
+            
+            // Try to parse as priority
+            char* endPtr;
+            long priority = strtol(priorityStr, &endPtr, 10);
+            
+            if (*endPtr == '\0' && priority >= PRIORITY_HIGH && priority <= PRIORITY_LOW) {
+                // New format: PRIORITY:topic:message
+                const char* secondDelimiter = strchr(firstDelimiter + 1, ':');
+                if (secondDelimiter != NULL) {
+                    // Extract topic
+                    size_t topicLength = secondDelimiter - (firstDelimiter + 1);
+                    char topic[TOPIC_SIZE];
+                    char content[1024];
+
+                    if (topicLength >= sizeof(topic)) {
+                        printf("Topic too long, truncating.\n");
+                        topicLength = sizeof(topic) - 1;
+                    }
+                    
+                    strncpy_s(topic, firstDelimiter + 1, topicLength);
+                    topic[topicLength] = '\0';
+                    
+                    strncpy_s(content, sizeof(content), secondDelimiter + 1, _TRUNCATE);
+
+                    // Use the priority-aware Publish interface
+                    PublishWithPriority(topic, content, (int)priority);
+                    updateMessageStats(topic, content, priority);
+                    return;
+                }
+            }
+        }
+        
+        // Fall back to old format: topic:message
+        size_t topicLength = firstDelimiter - message;
         char topic[TOPIC_SIZE];
         char content[1024];
 
@@ -61,9 +110,9 @@ void ProcessPublisherMessage(SOCKET clientSocket, const char* message) {
         strncpy_s(topic, message, topicLength);
         topic[topicLength] = '\0';
         
-        strncpy_s(content, sizeof(content), delimiter + 1, _TRUNCATE);
+        strncpy_s(content, sizeof(content), firstDelimiter + 1, _TRUNCATE);
 
-        // Use the Publish interface
+        // Use the standard Publish interface (defaults to MEDIUM priority)
         Publish(topic, content);
     } 
     else {
@@ -111,10 +160,12 @@ void ProcessSubscriberMessage(SOCKET clientSocket, const char* message) {
     ReleaseMutex(hashMapMutex);
 }
 
-// Process general client messages
+// Process general client messages 
 void ProcessClientMessage(SOCKET clientSocket) {
     char recvBuffer[BUFFER_LENGTH];
     int bytesReceived;
+    bool clientTypeIdentified = false;
+    char clientType[20] = "";
 
     while (true) {
         bytesReceived = recv(clientSocket, recvBuffer, BUFFER_LENGTH - 1, 0);
@@ -122,14 +173,29 @@ void ProcessClientMessage(SOCKET clientSocket) {
             recvBuffer[bytesReceived] = '\0';
 
             if (strncmp(recvBuffer, "PUBLISHER:", 10) == 0) {
+                if (!clientTypeIdentified) {
+                    strcpy_s(clientType, sizeof(clientType), "PUBLISHER");
+                    updateConnectionStats("PUBLISHER", 1);
+                    clientTypeIdentified = true;
+                }
                 ProcessPublisherMessage(clientSocket, recvBuffer + 10);
             }
             else if (strncmp(recvBuffer, "SUBSCRIBER:", 11) == 0) {
+                if (!clientTypeIdentified) {
+                    strcpy_s(clientType, sizeof(clientType), "SUBSCRIBER");
+                    updateConnectionStats("SUBSCRIBER", 1); 
+                    clientTypeIdentified = true;
+                }
                 ProcessSubscriberMessage(clientSocket, recvBuffer + 11);
             }
             else if (strncmp(recvBuffer, STORAGE_IDENTIFIER, strlen(STORAGE_IDENTIFIER)) == 0) {
                 printf("Storage service connected.\n");
                 storageSocket = clientSocket;
+                if (!clientTypeIdentified) {
+                    strcpy_s(clientType, sizeof(clientType), "STORAGE");
+                    updateConnectionStats("STORAGE", 1);
+                    clientTypeIdentified = true;
+                }
             }
             else {
                 printf("Unknown client type. Message ignored.\n");
@@ -137,10 +203,18 @@ void ProcessClientMessage(SOCKET clientSocket) {
         }
         else if (bytesReceived == 0) {
             printf("Client disconnected.\n");
+            // Track disconnection
+            if (clientTypeIdentified) {
+                updateConnectionStats(clientType, -1);
+            }
             break;
         }
         else {
             printf("recv failed with error: %d\n", WSAGetLastError());
+            // Track disconnection on error
+            if (clientTypeIdentified) {
+                updateConnectionStats(clientType, -1);
+            }
             break;
         }
     }
@@ -148,10 +222,10 @@ void ProcessClientMessage(SOCKET clientSocket) {
     closesocket(clientSocket);
 }
 
-// Notify all subscribers of a topic about a new message
-void notifySubscribers(const char* topic, const char* message) {
-    printf("Notifying subscribers for topic: '%s'\n", topic);
-    char* client_message = format_for_client(topic, message);
+// New function to notify subscribers WITH priority information
+void notifySubscribersWithPriority(const char* topic, const char* message, int priority) {
+    printf("Notifying subscribers for topic: '%s' with %s priority\n", topic, getPriorityName(priority));
+    char* client_message = format_for_client_with_priority(topic, message, priority);
 
     SubscriberNode* subscribers = getSubscribersWithLock(&topicSubscribers, topic);
 
@@ -173,7 +247,12 @@ void notifySubscribers(const char* topic, const char* message) {
     printf("Finished notifying subscribers for topic: '%s'\n", topic);
 }
 
-// Send message to storage service
+// Keep the old function for backward compatibility
+void notifySubscribers(const char* topic, const char* message) {
+    notifySubscribersWithPriority(topic, message, PRIORITY_MEDIUM);
+}
+
+// Send message to storage service WITH priority information
 void SendToStorage(const char* message) {
     if (storageSocket != INVALID_SOCKET) {
         int bytesSent = send(storageSocket, message, (int)strlen(message), 0);
@@ -186,7 +265,23 @@ void SendToStorage(const char* message) {
     }
 }
 
-// Utility function to format TopicMessagePair as string
+// Updated utility function to include priority in storage format
+char* format_priority_struct_to_string(const PriorityTopicMessagePair* my_struct) {
+    // Format as: PRIORITY:topic:message (so storage can parse priority)
+    size_t length = strlen(my_struct->topic) + strlen(my_struct->message) + 20; // Extra space for priority
+    char* formatted_string = (char*)malloc(length);
+    
+    if (!formatted_string) {
+        perror("Failed to allocate memory");
+        return NULL;
+    }
+
+    // Include priority in the message sent to storage
+    sprintf(formatted_string, "%d:%s:%s", my_struct->priority, my_struct->topic, my_struct->message);
+    return formatted_string;
+}
+
+// Utility function to format TopicMessagePair as string (backward compatibility)
 char* format_struct_to_string(const TopicMessagePair* my_struct) {
     size_t length = strlen(my_struct->topic) + strlen(my_struct->message) + 2;
     char* formatted_string = (char*)malloc(length);
@@ -200,7 +295,22 @@ char* format_struct_to_string(const TopicMessagePair* my_struct) {
     return formatted_string;
 }
 
-// Utility function to format message for client display
+// Enhanced function to format message for client display WITH priority
+char* format_for_client_with_priority(const char* topic, const char* message, int priority) {
+    // Format as: [PRIORITY]topic: message
+    size_t length = strlen(topic) + strlen(message) + 20; // Extra space for priority
+    char* formatted_string = (char*)malloc(length);
+    
+    if (!formatted_string) {
+        perror("Failed to allocate memory");
+        return NULL;
+    }
+
+    sprintf(formatted_string, "[%d]%s: %s", priority, topic, message);
+    return formatted_string;
+}
+
+// Keep backward compatibility version
 char* format_for_client(const char* topic, const char* message) {
     size_t length = strlen(topic) + strlen(message) + 3;
     char* formatted_string = (char*)malloc(length);
@@ -213,3 +323,4 @@ char* format_for_client(const char* topic, const char* message) {
     sprintf(formatted_string, "%s: %s", topic, message);
     return formatted_string;
 }
+

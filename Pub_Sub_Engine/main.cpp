@@ -5,18 +5,65 @@
 #include "thread_pool.h"
 #include "hashmap.h"
 #include "pubsub.h"
+#include "dashboard.h"  
+
+#include <conio.h>      // For console I/O functions
 
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
 
-
 bool InitializeWindowsSockets();
 void connect();
 
+DWORD WINAPI DashboardThread(LPVOID lpParam) {
+    printf("Dashboard ready! Press Enter then 'd' to view dashboard, 'r' to reset stats, 'q' to quit dashboard\n");
+    
+    while (true) {
+        Sleep(100); // Small sleep to prevent busy waiting
+        
+        // Check if there's input available (non-blocking check)
+        HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+        DWORD events = 0;
+        GetNumberOfConsoleInputEvents(hStdin, &events);
+        
+        if (events > 1) { // More than just the current event
+            char key = getchar();
+            
+            switch (key) {
+                case 'd':
+                case 'D':
+                    displayDashboard();
+                    printf("Dashboard updated! Press Enter then 'd' for dashboard, 'r' to reset, 'q' to quit\n");
+                    break;
+                case 'r':
+                case 'R':
+                    resetStatistics();
+                    printf("Statistics reset! Press Enter then 'd' for dashboard, 'r' to reset, 'q' to quit\n");
+                    break;
+                case 'q':
+                case 'Q':
+                    printf("Dashboard thread exiting...\n");
+                    return 0;
+                case '\n':
+                case '\r':
+                    // Ignore newlines
+                    break;
+                default:
+                    // Ignore other characters
+                    break;
+            }
+        }
+    }
+    return 0;
+}
+
 int main()
 {
-    printf("----- Publish Subscribe Service -----\n");
+    printf("+============================================+\n");
+    printf("|         PubSub Server with Dashboard      |\n");
+    printf("+============================================+\n");
+    
     connect();
     printf("\nService is closing...\n");
     Sleep(2000);
@@ -69,8 +116,14 @@ void connect() {
     printf("Server socket is set to listening mode. Waiting for new connection requests.\n");
 
     InitializeGlobalData();
+    initializeStatistics();
     InitializeThreadPool();
     InitializeMessageThreadPool();
+
+    // Create dashboard thread
+    HANDLE dashboardThread = CreateThread(NULL, 0, DashboardThread, NULL, 0, NULL);
+    
+    printf("Server ready! Press 'd' to view dashboard, 'r' to reset stats\n");
 
     do
     {

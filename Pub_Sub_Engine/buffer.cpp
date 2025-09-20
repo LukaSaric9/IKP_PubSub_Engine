@@ -1,7 +1,7 @@
 #include "buffer.h"
 
 void initializeCircularBuffer(CircularBuffer* buffer) {
-    buffer->buffer = (TopicMessagePair*)malloc(INITIAL_CAPACITY * sizeof(TopicMessagePair));
+    buffer->buffer = (PriorityTopicMessagePair*)malloc(INITIAL_CAPACITY * sizeof(PriorityTopicMessagePair));
     if (!buffer->buffer) {
         fprintf(stderr, "Failed to allocate memory for the buffer.\n");
         exit(EXIT_FAILURE);
@@ -12,7 +12,13 @@ void initializeCircularBuffer(CircularBuffer* buffer) {
     buffer->size = 0;  // Initialize size to 0
 }
 
+// Backward compatibility function - defaults to MEDIUM priority
 void storeTopicMessageCircular(CircularBuffer* buffer, const char* topic, const char* message) {
+    storePriorityTopicMessageCircular(buffer, topic, message, PRIORITY_MEDIUM);
+}
+
+// Enhanced function that stores with priority
+void storePriorityTopicMessageCircular(CircularBuffer* buffer, const char* topic, const char* message, int priority) {
     // Allocate and copy topic and message
     char* topicCopy = _strdup(topic);
     char* messageCopy = _strdup(message);
@@ -33,7 +39,7 @@ void storeTopicMessageCircular(CircularBuffer* buffer, const char* topic, const 
             }
 
             // Reallocate memory for the buffer
-            TopicMessagePair* newBuffer = (TopicMessagePair*)malloc(newCapacity * sizeof(TopicMessagePair));
+            PriorityTopicMessagePair* newBuffer = (PriorityTopicMessagePair*)malloc(newCapacity * sizeof(PriorityTopicMessagePair));
             if (!newBuffer) {
                 printf("Failed to reallocate memory for the buffer.\n");
                 free(topicCopy);
@@ -45,8 +51,7 @@ void storeTopicMessageCircular(CircularBuffer* buffer, const char* topic, const 
             size_t i = 0;
             size_t index = buffer->tail;
             while (index != buffer->head) {
-                newBuffer[i].topic = buffer->buffer[index].topic;
-                newBuffer[i].message = buffer->buffer[index].message;
+                newBuffer[i] = buffer->buffer[index];
                 index = (index + 1) % buffer->capacity;
                 i++;
             }
@@ -66,9 +71,11 @@ void storeTopicMessageCircular(CircularBuffer* buffer, const char* topic, const 
         }
     }
 
-    // Store the new topic-message pair in the buffer
+    // Store the new priority topic-message pair in the buffer
     buffer->buffer[buffer->head].topic = topicCopy;
     buffer->buffer[buffer->head].message = messageCopy;
+    buffer->buffer[buffer->head].priority = priority;
+    buffer->buffer[buffer->head].timestamp = time(NULL);
 
     // Move the head forward (circularly)
     buffer->head = (buffer->head + 1) % buffer->capacity;
@@ -79,14 +86,22 @@ void storeTopicMessageCircular(CircularBuffer* buffer, const char* topic, const 
     }
 }
 
+// Backward compatibility function
 TopicMessagePair readFromCircularBuffer(CircularBuffer* buffer) {
+    PriorityTopicMessagePair priorityPair = readPriorityFromCircularBuffer(buffer);
+    TopicMessagePair result = { priorityPair.topic, priorityPair.message };
+    return result;
+}
+
+// Read next message in FIFO order (standard circular buffer behavior)
+PriorityTopicMessagePair readPriorityFromCircularBuffer(CircularBuffer* buffer) {
     if (buffer->size == 0) {
-        TopicMessagePair empty = { NULL, NULL }; // Create an empty TopicMessagePair
-        return empty; // Return the empty pair
+        PriorityTopicMessagePair empty = { NULL, NULL, PRIORITY_MEDIUM, 0 };
+        return empty;
     }
 
     // Get the message at the tail index
-    TopicMessagePair message = buffer->buffer[buffer->tail];
+    PriorityTopicMessagePair message = buffer->buffer[buffer->tail];
 
     // Move the tail index forward (circularly)
     buffer->tail = (buffer->tail + 1) % buffer->capacity;
@@ -95,6 +110,48 @@ TopicMessagePair readFromCircularBuffer(CircularBuffer* buffer) {
     buffer->size--;
 
     return message;
+}
+
+// NEW: Read the highest priority message from buffer
+PriorityTopicMessagePair readHighestPriorityFromCircularBuffer(CircularBuffer* buffer) {
+    if (buffer->size == 0) {
+        PriorityTopicMessagePair empty = { NULL, NULL, PRIORITY_MEDIUM, 0 };
+        return empty;
+    }
+
+    // Find the highest priority message
+    size_t bestIndex = buffer->tail;
+    int highestPriority = PRIORITY_LOW + 1; // Start with lower than lowest priority
+    size_t currentIndex = buffer->tail;
+    
+    // Search through all messages in the buffer
+    for (size_t i = 0; i < buffer->size; i++) {
+        if (buffer->buffer[currentIndex].priority < highestPriority) {
+            highestPriority = buffer->buffer[currentIndex].priority;
+            bestIndex = currentIndex;
+        }
+        currentIndex = (currentIndex + 1) % buffer->capacity;
+    }
+
+    // Get the highest priority message
+    PriorityTopicMessagePair result = buffer->buffer[bestIndex];
+
+    // Remove this message from the buffer by shifting elements
+    if (bestIndex != buffer->tail) {
+        // If it's not the tail, we need to shift elements
+        size_t currentPos = bestIndex;
+        while (currentPos != buffer->tail) {
+            size_t prevPos = (currentPos - 1 + buffer->capacity) % buffer->capacity;
+            buffer->buffer[currentPos] = buffer->buffer[prevPos];
+            currentPos = prevPos;
+        }
+    }
+
+    // Move tail forward
+    buffer->tail = (buffer->tail + 1) % buffer->capacity;
+    buffer->size--;
+
+    return result;
 }
 
 void freeCircularBuffer(CircularBuffer* buffer) {
@@ -110,10 +167,23 @@ void freeCircularBuffer(CircularBuffer* buffer) {
 
 // Print the circular buffer contents (for debugging)
 void printBufferContents(CircularBuffer* buffer) {
-    printf("Buffer Contents (Capacity: %zu):\n", buffer->capacity);
+    printf("Buffer Contents (Capacity: %zu, Size: %zu):\n", buffer->capacity, buffer->size);
     size_t index = buffer->tail;
-    while (index != buffer->head) {
-        printf("  Topic: %s, Message: %s\n", buffer->buffer[index].topic, buffer->buffer[index].message);
+    for (size_t i = 0; i < buffer->size; i++) {
+        printf("  Topic: %s, Message: %s, Priority: %s\n", 
+               buffer->buffer[index].topic, 
+               buffer->buffer[index].message,
+               getPriorityName(buffer->buffer[index].priority));
         index = (index + 1) % buffer->capacity;
+    }
+}
+
+// Utility function to get priority name
+const char* getPriorityName(int priority) {
+    switch (priority) {
+        case PRIORITY_HIGH: return "HIGH";
+        case PRIORITY_MEDIUM: return "MEDIUM";
+        case PRIORITY_LOW: return "LOW";
+        default: return "UNKNOWN";
     }
 }

@@ -1,4 +1,4 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+﻿#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #define WIN32_LEAN_AND_MEAN
 
@@ -23,9 +23,12 @@
 bool InitializeWindowsSockets();
 DWORD WINAPI ReceiveMessages(LPVOID lpParam);
 void clearInputBuffer();
+void setupConsole();
 
 int main(void)
 {
+    setupConsole();
+    
     SOCKET connectSocket = INVALID_SOCKET;
 
     int iResult;
@@ -50,7 +53,6 @@ int main(void)
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = inet_addr(SERVER_IP_ADDRESS);
     serverAddress.sin_port = htons(SERVER_PORT);
-
 
     if (connect(connectSocket, (SOCKADDR*)&serverAddress, sizeof(serverAddress)) == SOCKET_ERROR)
     {
@@ -81,12 +83,25 @@ int main(void)
         return 1;
     }
 
-    printf("-----Storage Service-----\n");
+    printf("+============================================+\n");
+    printf("|         Storage Service with Priority     |\n");
+    printf("|            Ready to receive messages      |\n");
+    printf("+============================================+\n");
+
     while (true) {
-        printf("\nChoose an option:\n1. Display all messages\n2. Search by topic\n3. Close The Storage Service\n");
+        printf("\n+============================================+\n");
+        printf("|                 STORAGE MENU              |\n");
+        printf("+============================================+\n");
+        printf("| 1. Display all messages                   |\n");
+        printf("| 2. Search by topic                        |\n");
+        printf("| 3. Close Storage Service                  |\n");
+        printf("+============================================+\n");
+        printf("Choose an option: ");
+        
         char number = 0;
         number = getchar();
         clearInputBuffer();
+        
         switch (number) {
             case '1':
                 ReadAllMessages();
@@ -107,12 +122,12 @@ int main(void)
                 iResult = shutdown(connectSocket, SD_BOTH);
                 closesocket(connectSocket);
                 WSACleanup();
+                printf(">> Storage Service shutting down...\n");
                 return 0;
             default:
-                printf("You must choose a valid option!\n");
+                printf("!! You must choose a valid option!\n");
                 break;               
         }
-
     }
 
     // Wait for the receive thread to finish
@@ -138,8 +153,19 @@ int main(void)
     // Deinitialize WSA library
     WSACleanup();
 
-
     return 0;
+}
+
+void setupConsole() {
+    // Set console output to UTF-8 to handle special characters better
+    SetConsoleOutputCP(CP_UTF8);
+    
+    // Try to enable virtual terminal processing for better character support
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD dwMode = 0;
+    GetConsoleMode(hOut, &dwMode);
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    SetConsoleMode(hOut, dwMode);
 }
 
 void clearInputBuffer() {
